@@ -29,9 +29,10 @@ class MyApp extends StatelessWidget {
       designSize: const Size(375, 812),
       builder: (context, child) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: ThemeDataL.myTheme,
-          initialRoute: NavigationConst.ON_BORDING,
+          initialRoute: NavigationConst.SPLASH_VIEW,
           onGenerateRoute: _forRoute.ongenerateRoute,
         );
       },
