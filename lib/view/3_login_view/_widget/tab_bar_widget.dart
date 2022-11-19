@@ -38,10 +38,10 @@ class _TabBarWidgetState extends State<TabBarWidget>
         tabs: [
           Tab(
             icon: Text(
-              "Kirish",
+              "Register",
               style: TextStyle(
                 color: ColorConst.instance.white,
-                fontSize: 13.sp,
+                fontSize: 13.h,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -49,10 +49,10 @@ class _TabBarWidgetState extends State<TabBarWidget>
           ),
           Tab(
             icon: Text(
-              "Register",
+              "Kirish",
               style: TextStyle(
                 color: ColorConst.instance.white,
-                fontSize: 13.sp,
+                fontSize: 13.h,
                 fontWeight: FontWeight.w600,
               ),
             ),

@@ -11,7 +11,7 @@ class ButtonContainerOnBording extends StatelessWidget {
     return GestureDetector(
       child: Container(
         height: 50.h,
-        width: 185,
+        width: 185.w,
         margin: EdgeInsets.only(top: 75.h),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(48.r),
@@ -23,7 +23,7 @@ class ButtonContainerOnBording extends StatelessWidget {
               "Boshlash",
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 17.sp,
+                fontSize: 17.h,
                 fontWeight: FontWeight.w600,
               ),
             ),

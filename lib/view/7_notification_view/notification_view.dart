@@ -1,9 +1,12 @@
 import 'package:fitness_app/core/constants/color_const/color_const.dart';
+import 'package:fitness_app/core/extension/text_lang_extension/lang_extension.dart';
+import 'package:fitness_app/core/init/lang/locale_keys.g.dart';
 import 'package:fitness_app/view/5_home_view/cubit/home_cubit.dart';
 import 'package:fitness_app/view/5_home_view/cubit/home_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 
 class NotificationView extends StatelessWidget {
   const NotificationView({Key? key}) : super(key: key);
@@ -29,10 +32,10 @@ class NotificationView extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              "Xabarnomalar",
+              LocaleKeys.habarnomalar.t.toUpperCase(),
               style: TextStyle(
                 color: ColorConst.instance.white,
-                fontSize: 32.sp,
+                fontSize: 32.h,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -59,18 +62,18 @@ class NotificationView extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            "Oldingi",
+                            i==0?LocaleKeys.yangi.t:i==1?LocaleKeys.hozirgi.t:LocaleKeys.oldingi.t,
                             style: TextStyle(
                               color:
                                   ColorConst.instance.scaffoldBackgroundColor,
-                              fontSize: 17.sp,
+                              fontSize: 17.h,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
                         ),
                       ),
                       onTap: () {
-                        print(i);
+                       
                         context.read<HomeCubit>().changeTabBarIndex(i);
                       },
                     ),
@@ -78,37 +81,40 @@ class NotificationView extends StatelessWidget {
               ),
             ),
             SizedBox(height: 32.h),
-            for (var i = 0; i < 3; i++)
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: CircleAvatar(
-                  backgroundImage: AssetImage("assets/images/onbording.jpg"),
-                ),
-                title: Text(
-                  "Xabarnoma sarlavhasi",
-                  style: TextStyle(
-                    color: ColorConst.instance.white,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18.sp,
-                  ),
-                ),
-                subtitle: Text(
-                  "Xabarnoma matni",
-                  style: TextStyle(
-                    color: ColorConst.instance.white,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16.sp,
-                  ),
-                ),
-                trailing: Text(
-                  "9:45 AM",
-                  style: TextStyle(
-                    color: ColorConst.instance.white,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 17.sp,
-                  ),
-                ),
-              ),
+            Expanded(child: Center(
+              child: Lottie.asset("assets/icons/77008-not-found.json"),
+            ),),
+            // for (var i = 0; i < 3; i++)
+            //   ListTile(
+            //     contentPadding: EdgeInsets.zero,
+            //     leading: CircleAvatar(
+            //       backgroundImage: AssetImage("assets/images/onbording.jpg"),
+            //     ),
+            //     title: Text(
+            //       "Xabarnoma sarlavhasi",
+            //       style: TextStyle(
+            //         color: ColorConst.instance.white,
+            //         fontWeight: FontWeight.w500,
+            //         fontSize: 18.h,
+            //       ),
+            //     ),
+            //     subtitle: Text(
+            //       "Xabarnoma matni",
+            //       style: TextStyle(
+            //         color: ColorConst.instance.white,
+            //         fontWeight: FontWeight.w400,
+            //         fontSize: 16.h,
+            //       ),
+            //     ),
+            //     trailing: Text(
+            //       "9:45 AM",
+            //       style: TextStyle(
+            //         color: ColorConst.instance.white,
+            //         fontWeight: FontWeight.w400,
+            //         fontSize: 17.h,
+            //       ),
+            //     ),
+            //   ),
           ],
         ),
       ),

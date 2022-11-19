@@ -1,11 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fitness_app/core/constants/color_const/color_const.dart';
+import 'package:fitness_app/core/constants/enums/locale_kays_enum.dart';
 import 'package:fitness_app/core/constants/navigation_const/navigation_const.dart';
+import 'package:fitness_app/core/data/mashq_data/mashq_data.dart';
+import 'package:fitness_app/core/extension/text_lang_extension/lang_extension.dart';
+import 'package:fitness_app/core/init/lang/locale_keys.g.dart';
 import 'package:fitness_app/view/4_aboute_view/cubit/aboute_cubit.dart';
 import 'package:fitness_app/view/4_aboute_view/cubit/aboute_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
 import 'package:wheel_slider/wheel_slider.dart';
 
@@ -33,61 +38,48 @@ class JobView extends StatelessWidget {
           children: [
             SizedBox(height: 36.h),
             Text(
-              "Siz qanday ishda ishlaysiz?".toUpperCase(),
+              LocaleKeys.siz_qanday_ishda_ishlaysiz.t.toUpperCase(),
               style: TextStyle(
                 color: ColorConst.instance.white,
-                fontSize: 30.sp,
+                fontSize: 26.h,
               ),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 12.h),
             Text(
-              "Bu sizning shaxsiy rejangizni yaratishga yordam beradi".toUpperCase(),
+              LocaleKeys.bu_sizni_shaxsiy_rejangizni_yaratishda_kerak_boladi.t.toUpperCase(),
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: ColorConst.instance.white,
-                fontSize: 15.sp,
+                fontSize: 15.h,
               ),
             ),
-            SizedBox(height: 108.h),
+            SizedBox(height: 60.h),
             SizedBox(
-              height: 400.h,
-              width: 300.w,
+              height: 420.h,
+              
               child: WheelChooser(
                 isInfinite: true,
+                listHeight: 400.w,
                 selectTextStyle: TextStyle(
-                  fontSize: 24.sp,
+                  fontSize: 15.h,
                   color: ColorConst.instance.kPrimaryColor,
                 ),
+                itemSize: 20.h,
+                perspective: 0.01,
                 unSelectTextStyle: TextStyle(
-                  fontSize: 15.sp,
+                  fontSize: 13.h,
+                  inherit: true,
                   color: ColorConst.instance.white,
                 ),
-                datas: const [
-                  "Harbiy",
-                  "Nashriyot va bosmaxona",
-                  "Informatika va aloqa",
-                  "Tibbiyot",
-                  "Ilmiy",
-                  "Pedagogik",
-                  "Ovqat",
-                  "Qishloq xo'jaligi",
-                  "Xizmat va texnik xizmat ko'rsatish",
-                  "Sport",
-                  "Ijodiy",
-                  "Texnik",
-                  "Transport",
-                  "Iqtisodiy",
-                  "Huquqiy",
-                  "Boshqa"
-                ],
+                datas: MashqData.jobsList[GetStorage().read(PreferenceKeys.TOKEN.toString())],
                 onValueChanged: (v) {
-                  print(v);
+                  context.read<AbouteCubit>().chanegeIshi(v);
                 },
               ),
             ),
             const Spacer(),
-            Row(
+            context.watch<AbouteCubit>().isEmpty == false? SizedBox(): Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 GestureDetector(
@@ -100,16 +92,17 @@ class JobView extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        "Keyingisi",
+                        LocaleKeys.keyingisi.t,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 18.sp,
+                          fontSize: 15.h,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
                   ),
                   onTap: () {
+                    context.read<AbouteCubit>().addIshi();
                     Navigator.pushNamed(context, NavigationConst.HOME);
                   },
                 ),

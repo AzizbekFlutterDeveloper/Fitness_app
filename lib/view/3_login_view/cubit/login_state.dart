@@ -7,3 +7,7 @@ class LoginInitial extends LoginState{
 class TabBarState extends LoginState{
   TabBarState();
 }
+
+class NameState extends LoginState{
+  NameState();
+}

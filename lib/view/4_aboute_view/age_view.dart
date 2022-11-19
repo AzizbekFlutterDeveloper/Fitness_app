@@ -1,5 +1,7 @@
 import 'package:fitness_app/core/constants/color_const/color_const.dart';
 import 'package:fitness_app/core/constants/navigation_const/navigation_const.dart';
+import 'package:fitness_app/core/extension/text_lang_extension/lang_extension.dart';
+import 'package:fitness_app/core/init/lang/locale_keys.g.dart';
 import 'package:fitness_app/view/4_aboute_view/cubit/aboute_cubit.dart';
 import 'package:fitness_app/view/4_aboute_view/cubit/aboute_state.dart';
 import 'package:flutter/material.dart';
@@ -31,45 +33,48 @@ class AgeView extends StatelessWidget {
           children: [
             SizedBox(height: 36.h),
             Text(
-              "Yoshingiz nechida ?".toUpperCase(),
+              LocaleKeys.yoshingiz_nechida.t.toUpperCase(),
               style: TextStyle(
                 color: ColorConst.instance.white,
-                fontSize: 30.sp,
+                fontSize: 26.h,
               ),
             ),
             SizedBox(height: 12.h),
             Text(
-              "Bu sizning shaxsiy rejangizni yaratishga yordam beradi".toUpperCase(),
+              LocaleKeys.bu_sizni_shaxsiy_rejangizni_yaratishda_kerak_boladi.t.toUpperCase(),
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: ColorConst.instance.white,
-                fontSize: 15.sp,
+                fontSize: 15.h,
               ),
             ),
-            SizedBox(height: 108.h),
-            WheelSlider.number(
-              horizontal: false,
-              perspective: 0.01,
-              totalCount: 99,
-              itemSize: 70.sp,
-              initValue: 1,
-              listWidth: 130.w,
-              verticalListWidth: 130.w,
-              horizontalListWidth: 300.w,
-              selectedNumberStyle: TextStyle(
-                  color: ColorConst.instance.kPrimaryColor, fontSize: 50.sp),
-              pointerColor: ColorConst.instance.kPrimaryColor,
-              unSelectedNumberStyle: TextStyle(
-                fontSize: 40.sp,
-                color: ColorConst.instance.kPrimaryColor.withOpacity(0.5),
+            SizedBox(height: 60.h),
+            SizedBox(
+              height: 460.h,
+              child: WheelSlider.number(
+                horizontal: false,
+                perspective: 0.01,
+                totalCount: 99,
+                itemSize: 70.h,
+                initValue: 1,
+                listWidth: 130.w,
+                verticalListWidth: 400.w,
+                horizontalListWidth: 500.w,
+                selectedNumberStyle: TextStyle(
+                    color: ColorConst.instance.kPrimaryColor, fontSize: 50.h),
+                pointerColor: ColorConst.instance.kPrimaryColor,
+                unSelectedNumberStyle: TextStyle(
+                  fontSize: 40.h,
+                  color: ColorConst.instance.kPrimaryColor.withOpacity(0.5),
+                ),
+                currentIndex: context.watch<AbouteCubit>().age,
+                onValueChanged: (val) {
+                  context.read<AbouteCubit>().chanegeAge(val);
+                },
               ),
-              currentIndex: context.watch<AbouteCubit>().age,
-              onValueChanged: (val) {
-                context.read<AbouteCubit>().chanegeAge(val);
-              },
             ),
             const Spacer(),
-            Row(
+            context.watch<AbouteCubit>().isEmpty == false? SizedBox():Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 GestureDetector(
@@ -82,16 +87,17 @@ class AgeView extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        "Keyingisi",
+                        LocaleKeys.keyingisi.t,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 18.sp,
+                          fontSize: 15.h,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
                   ),
                   onTap: () {
+                    context.read<AbouteCubit>().addAge();
                     Navigator.pushNamed(context, NavigationConst.WIDTH);
                   },
                 ),

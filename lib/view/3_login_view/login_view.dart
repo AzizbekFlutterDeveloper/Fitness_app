@@ -29,6 +29,7 @@ class LoginView extends StatelessWidget {
 
   Scaffold _loginScaffold(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           Column(
@@ -38,7 +39,7 @@ class LoginView extends StatelessWidget {
                   SizedBox(
                     height: context.h * 0.65,
                     width: context.w,
-                    child: Image.asset(context.watch<LoginCubit>().tabBarCurrent == 0?"assets/images/Rectangle 6.png":"assets/images/singup.png",
+                    child: Image.asset(context.watch<LoginCubit>().tabBarCurrent != 0?"assets/images/Rectangle 6.png":"assets/images/singup.png",
                         fit: BoxFit.cover),
                   ),
                   Container(
@@ -49,10 +50,10 @@ class LoginView extends StatelessWidget {
                     color: ColorConst.instance.scaffoldBackgroundColor
                         .withOpacity(0.6),
                     child: Text(
-                      context.watch<LoginCubit>().tabBarCurrent == 0?"Dasturga Xush Kelibsiz".toUpperCase():"Dasturga Xush Kelibsiz".toUpperCase(),
+                      context.watch<LoginCubit>().tabBarCurrent != 0?"Dasturga Xush Kelibsiz".toUpperCase():"Dasturga Xush Kelibsiz".toUpperCase(),
                       style: TextStyle(
                         color: ColorConst.instance.white,
-                        fontSize: 50.sp,
+                        fontSize: 35.h,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -63,14 +64,18 @@ class LoginView extends StatelessWidget {
             ],
           ),
           Positioned(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 45.h),
-                TabBarWidget(contextt: context),
-                const Spacer(),
-                context.watch<LoginCubit>().tabBarCurrent == 0?SignInView():SignUp()
-              ],
+            child: SizedBox(
+              height: context.h,
+              width: context.w,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 45.h),
+                  TabBarWidget(contextt: context),
+                  const Spacer(),
+                  context.watch<LoginCubit>().tabBarCurrent != 0?SignInView():SignUp()
+                ],
+              ),
             ),
           ),
         ],

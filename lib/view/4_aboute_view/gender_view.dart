@@ -1,5 +1,7 @@
 import 'package:fitness_app/core/constants/color_const/color_const.dart';
 import 'package:fitness_app/core/constants/navigation_const/navigation_const.dart';
+import 'package:fitness_app/core/extension/text_lang_extension/lang_extension.dart';
+import 'package:fitness_app/core/init/lang/locale_keys.g.dart';
 import 'package:fitness_app/view/4_aboute_view/cubit/aboute_cubit.dart';
 import 'package:fitness_app/view/4_aboute_view/cubit/aboute_state.dart';
 import 'package:flutter/material.dart';
@@ -31,24 +33,24 @@ class GenderView extends StatelessWidget {
           children: [
             SizedBox(height: 36.h),
             Text(
-              "O'zingiz haqingizda gapirib bering!".toUpperCase(),
+              LocaleKeys.ozingiz_haqingizda_gapirib_bering.t.toUpperCase(),
               style: TextStyle(
                 color: ColorConst.instance.white,
-                fontSize: 30.sp,
+                fontSize: 26.h,
               ),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 12.h),
             Text(
-              "Sizga yaxshiroq tajriba berish uchun jinsingizni bilishimiz kerak"
+              LocaleKeys.sizga_yaxshiroq_tajriba_berish_uchun_jinsizgizni_bilish_kerak.t
                   .toUpperCase(),
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: ColorConst.instance.white,
-                fontSize: 15.sp,
+                fontSize: 15.h,
               ),
             ),
-            SizedBox(height: 108.h),
+            SizedBox(height: 60.h),
             GestureDetector(
               child: CircleAvatar(
                 backgroundColor:context.watch<AbouteCubit>().gender == true?ColorConst.instance.kPrimaryColor: ColorConst.instance.grey,
@@ -77,7 +79,7 @@ class GenderView extends StatelessWidget {
               },
             ),
             const Spacer(),
-            Row(
+            context.watch<AbouteCubit>().gender == null ?SizedBox() : Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 GestureDetector(
@@ -90,16 +92,17 @@ class GenderView extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        "Keyingisi",
+                        LocaleKeys.keyingisi.t,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 18.sp,
+                          fontSize: 15.h,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
                   ),
                   onTap: () {
+                    context.read<AbouteCubit>().addGenter();
                     Navigator.pushNamed(context, NavigationConst.AGE);
                   },
                 ),

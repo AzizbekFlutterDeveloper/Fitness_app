@@ -1,1 +1,1 @@
-enum PreferenceKeys {TOKEN }
+enum PreferenceKeys {TOKEN, NAME,AGE,BOY,VAZNI,ISH,EMAIL,PASSWORD,JINSI, DATE , ISTRUE, IMAGE}

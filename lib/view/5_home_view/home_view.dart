@@ -1,13 +1,17 @@
 import 'package:fitness_app/core/constants/color_const/color_const.dart';
+import 'package:fitness_app/core/constants/enums/locale_kays_enum.dart';
 import 'package:fitness_app/core/constants/navigation_const/navigation_const.dart';
+import 'package:fitness_app/core/data/mashq_data/mashq_data.dart';
+import 'package:fitness_app/core/extension/text_lang_extension/lang_extension.dart';
+import 'package:fitness_app/core/init/lang/locale_keys.g.dart';
+import 'package:fitness_app/model/mashq_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_storage/get_storage.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,22 +22,22 @@ class HomeView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Salom, Azizbek",
+                GetStorage().read(PreferenceKeys.NAME.toString()),
                 style: TextStyle(
                   color: ColorConst.instance.white,
-                  fontSize: 32.sp,
+                  fontSize: 32.h,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               SizedBox(height: 15.h),
               Text(
-                "Hayrli kun !",
+                LocaleKeys.hayli_kum.t,
                 style: TextStyle(
                   color: ColorConst.instance.white,
-                  fontSize: 18.sp,
+                  fontSize: 18.h,
                 ),
               ),
-              for (var i = 0; i < 3; i++)
+              for (var i = 0; i < MashqData.homeData.length; i++)
                 Column(
                   children: [
                     SizedBox(height: 32.h),
@@ -41,18 +45,30 @@ class HomeView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Qollar uchun",
+                          MashqData.homeData[i]['name'][GetStorage().read(PreferenceKeys.TOKEN.toString())],
                           style: TextStyle(
                             color: ColorConst.instance.white,
-                            fontSize: 22.sp,
+                            fontSize: 22.h,
                           ),
                         ),
-                        Text(
-                          "Hammasi",
-                          style: TextStyle(
-                            color: ColorConst.instance.kPrimaryColor,
-                            fontSize: 18.sp,
+                        GestureDetector(
+                          child: Text(
+                            LocaleKeys.hammasi.t,
+                            style: TextStyle(
+                              color: ColorConst.instance.kPrimaryColor,
+                              fontSize: 18.h,
+                            ),
                           ),
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              NavigationConst.EXERCISE,
+                              arguments: HomeModel(
+                                list: MashqData.mashqData[i],
+                                index: i,
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -66,7 +82,7 @@ class HomeView extends StatelessWidget {
                           color: ColorConst.instance.kPrimaryColor,
                           image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: AssetImage("assets/images/Image.png"),
+                            image: AssetImage(MashqData.homeData[i]['img']),
                           ),
                         ),
                         child: Container(
@@ -83,18 +99,18 @@ class HomeView extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Text(
-                                "Jami: 15 ta mashq",
+                                "${LocaleKeys.jami.t}: ${MashqData.homeData[i]['soni']} ${LocaleKeys.ta_mashq.t}",
                                 style: TextStyle(
                                   color: ColorConst.instance.white,
-                                  fontSize: 20.sp,
+                                  fontSize: 20.h,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
                               Text(
-                                "Davomiyligi: 7,5 daqiqa",
+                                "${LocaleKeys.davomiyligi.t}: ${MashqData.homeData[i]['min']} ${LocaleKeys.min.t}",
                                 style: TextStyle(
                                   color: ColorConst.instance.kPrimaryColor,
-                                  fontSize: 18.sp,
+                                  fontSize: 18.h,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -102,8 +118,15 @@ class HomeView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      onTap: (){
-                        Navigator.pushNamed(context, NavigationConst.EXERCISE);
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          NavigationConst.EXERCISE,
+                          arguments: HomeModel(
+                            list: MashqData.mashqData[i],
+                            index: i,
+                          ),
+                        );
                       },
                     ),
                   ],

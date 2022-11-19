@@ -70,7 +70,7 @@ class OnBording extends StatelessWidget {
                               onbordingList[index]['name'],
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 45.sp,
+                                fontSize: 30.h,
                                 fontFamily: "Open",
                               ),
                               textAlign: TextAlign.center,

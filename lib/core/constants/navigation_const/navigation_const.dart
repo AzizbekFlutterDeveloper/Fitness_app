@@ -10,4 +10,7 @@ class NavigationConst{
   static const String HOME = '/home';
   static const String EXERCISE = '/exercise';
   static const String NOTIFICATION = '/notification';
+  static const String PROFILE_EDIT = "/edit";
+  static const String CHANGE_LANG = '/change_lang';
+  static const String ABOUT = "/aboute";
 }

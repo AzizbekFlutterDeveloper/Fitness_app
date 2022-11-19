@@ -1,16 +1,29 @@
+import 'dart:io';
+
 import 'package:fitness_app/core/constants/color_const/color_const.dart';
+import 'package:fitness_app/core/constants/enums/locale_kays_enum.dart';
+import 'package:fitness_app/core/constants/navigation_const/navigation_const.dart';
+import 'package:fitness_app/core/data/on_bording_data/list_on_bording.dart';
+import 'package:fitness_app/core/extension/text_lang_extension/lang_extension.dart';
+import 'package:fitness_app/core/init/cache/cache_manager.dart';
+import 'package:fitness_app/core/init/lang/locale_keys.g.dart';
+import 'package:fitness_app/routes/routes/router.dart';
+import 'package:fitness_app/view/3_login_view/cubit/login_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class ProfileView extends StatelessWidget {
-  const ProfileView({Key? key}) : super(key: key);
+   ProfileView({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 50.h, horizontal: 28.w),
+        padding: EdgeInsets.symmetric(vertical: 40.h, horizontal: 28.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -23,10 +36,14 @@ class ProfileView extends StatelessWidget {
                     radius: 55.0,
                     lineWidth: 3.0,
                     percent: 0.8,
-                    center: CircleAvatar(
+                    center:GetStorage().read(PreferenceKeys.IMAGE.toString()) == ""? CircleAvatar(
                       radius: 40.r,
                       backgroundImage:
                           const AssetImage("assets/images/person.jpg"),
+                    ):CircleAvatar(
+                      radius: 40.r,
+                      backgroundImage:
+                           FileImage(File(GetStorage().read(PreferenceKeys.IMAGE.toString()))),
                     ),
                     backgroundColor: ColorConst.instance.grey,
                     linearGradient: const LinearGradient(
@@ -44,17 +61,17 @@ class ProfileView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Kirgan",
+                      LocaleKeys.kirgan.t,
                       style: TextStyle(
                         color: ColorConst.instance.grey,
-                        fontSize: 14.sp,
+                        fontSize: 14.h,
                       ),
                     ),
                     Text(
-                      "2 oy avval",
+                      GetStorage().read(PreferenceKeys.DATE.toString()).toString().split(" ")[0],
                       style: TextStyle(
                         color: ColorConst.instance.white,
-                        fontSize: 18.sp,
+                        fontSize: 18.h,
                       ),
                     )
                   ],
@@ -66,51 +83,87 @@ class ProfileView extends StatelessWidget {
               height: 86.h,
               width: 200.w,
               child: Text(
-                "Azizbek Karimov",
+                GetStorage().read(PreferenceKeys.NAME.toString()),
                 style: TextStyle(
                   color: ColorConst.instance.white,
-                  fontSize: 40.sp,
+                  fontSize: 40.h,
                   fontWeight: FontWeight.w700,
                 ),
                 overflow: TextOverflow.clip,
                 maxLines: 2,
               ),
             ),
-            SizedBox(height: 24.h),
+            SizedBox(height: 20.h),
             for (var i = 0; i < 3; i++)
               Column(
                 children: [
                   Divider(color: ColorConst.instance.grey),
                   ListTile(
                     contentPadding: EdgeInsets.zero,
+                    
                     title: Text(
-                      "Profilr tahrirlash",
+                      i == 0?  LocaleKeys.profile_tahrirlash.t:i==1?LocaleKeys.malumotlarni_tahrirlash.t:LocaleKeys.til_ozgartirish.t,
                       style: TextStyle(
                         color: ColorConst.instance.white,
-                        fontSize: 18.sp,
+                        fontSize: 18.h,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                     trailing: Icon(
                       Icons.arrow_forward_ios_rounded,
                       color: ColorConst.instance.white,
-                      size: 18.sp,
+                      size: 18.h,
                     ),
+                    onTap: (){
+                      if(i == 0){
+                        context.read<LoginCubit>().addController();
+                        Navigator.pushNamed(context, NavigationConst.PROFILE_EDIT);
+                      }else if(i == 1){
+                        Navigator.pushNamed(context, NavigationConst.AGE);
+                      }else{
+                        Navigator.pushNamed(context, NavigationConst.CHANGE_LANG);
+                      }
+                    },
                   ),
                 ],
               ),
+              Divider(color: ColorConst.instance.grey),
+              ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    
+                    title: Text(
+                      "About",
+                      style: TextStyle(
+                        color: ColorConst.instance.white,
+                        fontSize: 18.h,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: ColorConst.instance.white,
+                      size: 18.h,
+                    ),
+                    onTap: (){
+                      Navigator.pushNamed(context, NavigationConst.ABOUT);
+                    },
+                  ),
             Divider(color: ColorConst.instance.grey),
-            Spacer(),
+            
             Divider(color: ColorConst.instance.grey),
             ListTile(
               title: Text(
-                "Profildan chiqish",
+                LocaleKeys.profiledan_chiqish.t,
                 style: TextStyle(
                   color: ColorConst.instance.red,
-                  fontSize: 18.sp,
+                  fontSize: 18.h,
                   fontWeight: FontWeight.w500,
                 ),
               ),
+              onTap: (){
+                GetStorage().write(PreferenceKeys.ISTRUE.toString(), " ");
+                Navigator.pushNamedAndRemoveUntil(context, NavigationConst.SPLASH_VIEW, (route) => false);
+              },
             ),
             Divider(color: ColorConst.instance.grey),
           ],
