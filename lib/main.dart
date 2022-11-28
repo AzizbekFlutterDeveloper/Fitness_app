@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:fitness_app/core/constants/enums/locale_kays_enum.dart';
 import 'package:fitness_app/core/constants/navigation_const/navigation_const.dart';
 import 'package:fitness_app/core/init/cache/cache_manager.dart';
@@ -14,6 +15,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_storage/get_storage.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp();
+
   await GetStorage.init();
   if (GetStorage().read(PreferenceKeys.ISTRUE.toString()) != "true") {
     CashedData.init();
@@ -55,7 +59,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: ThemeDataL.myTheme,
-          initialRoute: NavigationConst.SPLASH_VIEW,
+          initialRoute: NavigationConst.HOME,
           onGenerateRoute: _forRoute.ongenerateRoute,
         );
       },

@@ -21,7 +21,9 @@ class LoginView extends StatelessWidget {
       child: BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) {},
         builder: (context, state) {
-          return _loginScaffold(context);
+          return GestureDetector(
+             onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
+            child: _loginScaffold(context));
         },
       ),
     );
@@ -73,7 +75,7 @@ class LoginView extends StatelessWidget {
                   SizedBox(height: 45.h),
                   TabBarWidget(contextt: context),
                   const Spacer(),
-                  context.watch<LoginCubit>().tabBarCurrent != 0?SignInView():SignUp()
+                  context.watch<LoginCubit>().tabBarCurrent != 0?const SignInView():const SignUp()
                 ],
               ),
             ),

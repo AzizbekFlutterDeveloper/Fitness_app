@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:fitness_app/core/constants/enums/locale_kays_enum.dart';
 import 'package:fitness_app/core/init/cache/cache_manager.dart';
+import 'package:fitness_app/service/firebase_auth/firebase_auth_service.dart';
 import 'package:fitness_app/view/3_login_view/cubit/login_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +11,7 @@ import 'package:image_picker/image_picker.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial());
-   
+
   final box = GetStorage();
 
   int tabBarCurrent = 0;
@@ -25,53 +26,82 @@ class LoginCubit extends Cubit<LoginState> {
   int boyi = 0;
   String ishi = "";
   File imageFile = File("");
-  
+
   final ImagePicker picker = ImagePicker();
 
-
-  void changeJinsi(String jin){
+  void changeJinsi(String jin) {
     jinsi = jin;
     emit(NameState());
   }
 
-  void changeyohi(int yo){
+  void changeyohi(int yo) {
     yoshi = yo;
     emit(NameState());
   }
-  void changeVazni(int vaz){
+
+  void changeVazni(int vaz) {
     vazni = vaz;
     emit(NameState());
   }
-  void changeBoyi(int boy){
+
+  void changeBoyi(int boy) {
     boyi = boy;
     emit(NameState());
   }
-  void changeIshi(String ish){
+
+  void changeIshi(String ish) {
     ishi = ish;
     emit(NameState());
   }
 
   final formKey = GlobalKey<FormState>();
-  
-  void changeCurrent(int i){
+
+  void changeCurrent(int i) {
     tabBarCurrent = i;
     emit(TabBarState());
   }
 
-  changeImage()async{
+  changeImage() async {
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
     imageFile = File(image!.path);
     emit(NameState());
   }
 
-  void addController(){
+  // Firebase functions
+  void signInGoogle(BuildContext context) {
+    FirebaseAuthServise().signInWithGoogle(context);
+  }
+
+  void signInEmail(context) {
+    if (emailController.text.isNotEmpty || passwordController.text.isNotEmpty) {
+      FirebaseAuthServise()
+          .loginUser(context, emailController.text, passwordController.text);
+    }else {
+      FirebaseAuthServise().errorBox(context, 'Fields can not be empty');
+    }
+  }
+
+  void registerUser(context) {
+    if (emailController.text.isNotEmpty || passwordController.text.isNotEmpty) {
+      FirebaseAuthServise().createUser(
+          context, emailController.text, againPasswordController.text);
+    }else {
+      FirebaseAuthServise().errorBox(context, 'Fields can not be empty');
+    }
+  }
+
+  void signOut(context) {
+    FirebaseAuthServise().signOut(context);
+  }
+
+  void addController() {
     nameController.text = box.read(PreferenceKeys.NAME.toString());
     emailController.text = box.read(PreferenceKeys.EMAIL.toString());
     imageFile = File(box.read(PreferenceKeys.IMAGE.toString()));
     emit(NameState());
   }
 
-  void addName()async{
+  void addName() async {
     String date = DateTime.now().toString();
     box.write(PreferenceKeys.NAME.toString(), nameController.text);
     box.write(PreferenceKeys.EMAIL.toString(), emailController.text);
@@ -81,7 +111,7 @@ class LoginCubit extends Cubit<LoginState> {
     emit(NameState());
   }
 
-  Future changeName()async{
+  Future changeName() async {
     box.write(PreferenceKeys.NAME.toString(), nameController.text);
     box.write(PreferenceKeys.EMAIL.toString(), emailController.text);
     box.write(PreferenceKeys.IMAGE.toString(), imageFile.path);

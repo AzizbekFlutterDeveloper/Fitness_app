@@ -55,7 +55,7 @@ class MyRoutes {
        case NavigationConst.ABOUT:
         return normalNavigate(AboutPage());
       case NavigationConst.EXERCISE:
-        return normalNavigate( ExerciseView(dataList: args as HomeModel,));
+        return normalNavigate( ExerciseView( dataList: args as HomeModel,));
       default:
         return normalNavigate(const OnBording());
     }

@@ -2,6 +2,7 @@ import 'package:fitness_app/core/constants/color_const/color_const.dart';
 import 'package:fitness_app/core/constants/enums/locale_kays_enum.dart';
 import 'package:fitness_app/core/constants/navigation_const/navigation_const.dart';
 import 'package:fitness_app/core/extension/size_extension/size_extension.dart';
+import 'package:fitness_app/service/firebase_auth/firebase_auth_service.dart';
 import 'package:fitness_app/view/3_login_view/cubit/login_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,15 +44,15 @@ class SignInView extends StatelessWidget {
                           color: Colors.white,
                           fontSize: 18.h,
                         ),
-                        errorStyle: TextStyle(color: Colors.red, fontSize: 14.h),
+                        errorStyle:
+                            TextStyle(color: Colors.red, fontSize: 14.h),
                       ),
                       validator: (value) {
-                        if("test@gmail.com" != value){
+                        if ("test@gmail.com" != value) {
                           return "Bunday email royhatdan o'tmagan !";
                         }
                       },
                     ),
-                    
                     SizedBox(height: 30.h),
                     TextFormField(
                       style: TextStyle(
@@ -65,24 +66,29 @@ class SignInView extends StatelessWidget {
                           color: Colors.white,
                           fontSize: 18.h,
                         ),
-                        errorStyle: TextStyle(color: Colors.red, fontSize: 14.h),
+                        errorStyle:
+                            TextStyle(color: Colors.red, fontSize: 14.h),
                       ),
-                      
                       validator: (value) {
-                        if("qazxswedc" != value){
+                        if ("qazxswedc" != value) {
                           return "Parolingiz xato kiritildi !";
                         }
                       },
                     ),
-                    
                     const Spacer(),
                     Row(
                       children: [
                         SizedBox(width: 20.w),
-                        CircleAvatar(
-                          backgroundColor: ColorConst.instance.grey,
-                          radius: 27.r,
-                          child: SvgPicture.asset("assets/icons/Google.svg"),
+                        GestureDetector(
+                          onTap: (() {
+                            context.read<LoginCubit>().signInGoogle(context);
+                            // FirebaseAuthServise().signInWithGoogle(context);
+                          }),
+                          child: CircleAvatar(
+                            backgroundColor: ColorConst.instance.grey,
+                            radius: 27.r,
+                            child: SvgPicture.asset("assets/icons/Google.svg"),
+                          ),
                         ),
                         const Spacer(),
                         GestureDetector(
@@ -105,10 +111,15 @@ class SignInView extends StatelessWidget {
                             ),
                           ),
                           onTap: () {
-                            if(BlocProvider.of<LoginCubit>(context).formKey.currentState!.validate()){
-                              Navigator.pushNamed(
-                                context, NavigationConst.GENDER);
-                            }
+                            context.read<LoginCubit>().signInEmail(context);
+
+                            // FirebaseAuthServise().createUser(context,
+                            //     'nfasjaldd@gmail.com', '12345qwert', 'name');
+
+                            //  if(BlocProvider.of<LoginCubit>(context).formKey.currentState!.validate()){
+                            //   Navigator.pushNamed(
+                            //     context, NavigationConst.GENDER);
+                            // }
                           },
                         ),
                       ],

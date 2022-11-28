@@ -1,6 +1,7 @@
 import 'package:fitness_app/core/constants/color_const/color_const.dart';
 import 'package:fitness_app/core/constants/navigation_const/navigation_const.dart';
 import 'package:fitness_app/core/extension/size_extension/size_extension.dart';
+import 'package:fitness_app/service/firebase_auth/firebase_auth_service.dart';
 import 'package:fitness_app/view/3_login_view/cubit/login_cubit.dart';
 import 'package:fitness_app/view/3_login_view/cubit/login_state.dart';
 import 'package:flutter/material.dart';
@@ -53,13 +54,14 @@ class SignUp extends StatelessWidget {
                       decoration: InputDecoration(
                         hintText: "Ism-Familya",
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: ColorConst.instance.kPrimaryColor)
-                        ),
+                            borderSide: BorderSide(
+                                color: ColorConst.instance.kPrimaryColor)),
                         hintStyle: TextStyle(
                           color: Colors.white,
                           fontSize: 18.h,
                         ),
-                        errorStyle: TextStyle(color: Colors.red, fontSize: 14.h),
+                        errorStyle:
+                            TextStyle(color: Colors.red, fontSize: 14.h),
                       ),
                       validator: (value) {
                         if (value!.length < 2) {
@@ -74,15 +76,15 @@ class SignUp extends StatelessWidget {
                       decoration: InputDecoration(
                         hintText: "Email",
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: ColorConst.instance.kPrimaryColor)
-                        ),
+                            borderSide: BorderSide(
+                                color: ColorConst.instance.kPrimaryColor)),
                         hintStyle: TextStyle(
                           color: Colors.white,
                           fontSize: 18.h,
                         ),
-                        errorStyle: TextStyle(color: Colors.red, fontSize: 14.h),
+                        errorStyle:
+                            TextStyle(color: Colors.red, fontSize: 14.h),
                       ),
-
                       validator: (value) {
                         String pattern =
                             r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
@@ -106,17 +108,17 @@ class SignUp extends StatelessWidget {
                       decoration: InputDecoration(
                         hintText: "Parol",
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: ColorConst.instance.kPrimaryColor)
-                        ),
+                            borderSide: BorderSide(
+                                color: ColorConst.instance.kPrimaryColor)),
                         hintStyle: TextStyle(
                           color: Colors.white,
                           fontSize: 18.h,
                         ),
-                        errorStyle: TextStyle(color: Colors.red, fontSize: 14.h),
+                        errorStyle:
+                            TextStyle(color: Colors.red, fontSize: 14.h),
                       ),
-                      
                       validator: (value) {
-                        if(value!.length < 8){
+                        if (value!.length < 8) {
                           return "Parol kamida 8 ta element bolishi kerak!";
                         }
                       },
@@ -129,16 +131,20 @@ class SignUp extends StatelessWidget {
                       decoration: InputDecoration(
                         hintText: "Parolni takrorlash",
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: ColorConst.instance.kPrimaryColor)
-                        ),
+                            borderSide: BorderSide(
+                                color: ColorConst.instance.kPrimaryColor)),
                         hintStyle: TextStyle(
                           color: Colors.white,
                           fontSize: 18.h,
                         ),
-                        errorStyle: TextStyle(color: Colors.red, fontSize: 14.h),
+                        errorStyle:
+                            TextStyle(color: Colors.red, fontSize: 14.h),
                       ),
                       validator: (value) {
-                        if(BlocProvider.of<LoginCubit>(context,listen: false).passwordController.text != value){
+                        if (BlocProvider.of<LoginCubit>(context, listen: false)
+                                .passwordController
+                                .text !=
+                            value) {
                           return "Prol tog'ri kelmadi";
                         }
                       },
@@ -146,12 +152,18 @@ class SignUp extends StatelessWidget {
                     Spacer(),
                     Row(
                       children: [
-                       
                         SizedBox(width: 20.w),
-                        CircleAvatar(
-                          backgroundColor: ColorConst.instance.grey,
-                          radius: 27.r,
-                          child: SvgPicture.asset("assets/icons/Google.svg"),
+                        GestureDetector(
+                          onTap: () {
+                            context.read<LoginCubit>().signInGoogle(context);
+
+                            // FirebaseAuthServise().signInWithGoogle(context);
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: ColorConst.instance.grey,
+                            radius: 27.r,
+                            child: SvgPicture.asset("assets/icons/Google.svg"),
+                          ),
                         ),
                         Spacer(),
                         GestureDetector(
@@ -174,11 +186,16 @@ class SignUp extends StatelessWidget {
                             ),
                           ),
                           onTap: () {
-                            if(BlocProvider.of<LoginCubit>(context,listen: false).formKey.currentState!.validate()){
-                              context.read<LoginCubit>().addName();
-                              Navigator.pushNamed(
-                                context, NavigationConst.GENDER);
-                            }
+                            context.read<LoginCubit>().registerUser(context);
+
+                            // FirebaseAuthServise().createUser(
+                            //     context, 'email@gmail.com', "passwordsss");
+
+                            // if(BlocProvider.of<LoginCubit>(context,listen: false).formKey.currentState!.validate()){
+                            //   context.read<LoginCubit>().addName();
+                            //   Navigator.pushNamed(
+                            //     context, NavigationConst.GENDER);
+                            // }
                           },
                         ),
                       ],

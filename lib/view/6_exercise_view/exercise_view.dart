@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fitness_app/core/constants/api_consts/api_consts.dart';
 import 'package:fitness_app/core/constants/color_const/color_const.dart';
 import 'package:fitness_app/core/constants/enums/locale_kays_enum.dart';
 import 'package:fitness_app/core/data/mashq_data/mashq_data.dart';
@@ -12,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:slide_countdown/slide_countdown.dart';
+import 'dart:developer' as debugger;
 
 class ExerciseView extends StatelessWidget {
   final HomeModel dataList;
@@ -41,10 +44,11 @@ class ExerciseView extends StatelessWidget {
                 flexibleSpace: Container(
                   height: 390.h,
                   width: double.infinity,
-                  decoration:  BoxDecoration(
+                  decoration: BoxDecoration(
                       image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: AssetImage(MashqData.homeData[dataList.index!]['img']))),
+                          image: AssetImage(
+                              MashqData.homeData[dataList.index!]['img']))),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -70,7 +74,8 @@ class ExerciseView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        MashqData.homeData[dataList.index!]['name'][GetStorage().read(PreferenceKeys.TOKEN.toString())],
+                        MashqData.homeData[dataList.index!]['name'][
+                            GetStorage().read(PreferenceKeys.TOKEN.toString())],
                         style: TextStyle(
                           color: ColorConst.instance.white,
                           fontSize: 24.h,
@@ -102,9 +107,13 @@ class ExerciseView extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  i ==0? Icon(Icons.fitness_center):Icon(Icons.play_circle_filled_outlined),
+                                  i == 0
+                                      ? Icon(Icons.fitness_center)
+                                      : Icon(Icons.play_circle_filled_outlined),
                                   Text(
-                                    i==0? "${MashqData.homeData[dataList.index!]['soni']}  ta":"${MashqData.homeData[dataList.index!]['min']} ${LocaleKeys.min.t}",
+                                    i == 0
+                                        ? "${MashqData.homeData[dataList.index!]['soni']}  ta"
+                                        : "${MashqData.homeData[dataList.index!]['min']} ${LocaleKeys.min.t}",
                                     style: TextStyle(
                                       color: ColorConst.instance.white,
                                       fontSize: 16.h,
@@ -132,70 +141,169 @@ class ExerciseView extends StatelessWidget {
                   ),
                 ),
               ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    return GestureDetector(
-                      child: Container(
-                        height: 76.h,
-                        width: 327.w,
-                        margin: EdgeInsets.symmetric(
-                            horizontal: 24.w, vertical: 7.5.h),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.r),
-                          color: ColorConst.instance.grey,
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              height: 76.h,
-                              width: 82.w,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.horizontal(
-                                    left: Radius.circular(16.r)),
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: AssetImage(dataList.list![index].img!),
-                                ),
-                              ),
+              SliverToBoxAdapter(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection(context.read<MashqCubit>().getCategory( MashqData.homeData[dataList.index!]['name']
+                        [GetStorage().read(PreferenceKeys.TOKEN.toString())]))
+                      .orderBy('id')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    var name = MashqData.homeData[dataList.index!]['name']
+                        [GetStorage().read(PreferenceKeys.TOKEN.toString())];
+                    debugger.log('@@@@ $name');
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    return ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: 5,
+                      itemBuilder: (BuildContext context, int index) {
+                        QueryDocumentSnapshot data = snapshot.data!.docs[index];
+                        // var img = '${ApiConst.imagePrefix}${data['img']}';
+                        // debugger.log('@@@@@  $img');
+                        return GestureDetector(
+                          child: Container(
+                            height: 76.h,
+                            width: 327.w,
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 24.w, vertical: 7.5.h),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16.r),
+                              color: ColorConst.instance.grey,
                             ),
-                            SizedBox(width: 20.w),
-                            SizedBox(
-                              width: 200.w,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    dataList.list![index].name![GetStorage().read(PreferenceKeys.TOKEN.toString())],
-                                    style: TextStyle(
-                                        color: ColorConst.instance.white,
-                                        fontSize: 22.h),
-                                    overflow: TextOverflow.clip,
-                                    maxLines: 2,
+                            child: Row(
+                              children: [
+                                Container(
+                                  height: 76.h,
+                                  width: 82.w,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.horizontal(
+                                        left: Radius.circular(16.r)),
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(
+                                          '${ApiConst.imagePrefix}${data['img']}'),
+                                    ),
                                   ),
-                                  Text(
-                                    dataList.list![index].min!,
-                                    style: TextStyle(
-                                        color:
-                                            ColorConst.instance.kPrimaryColor,
-                                        fontSize: 18.h),
-                                    overflow: TextOverflow.clip,
-                                    maxLines: 2,
-                                  )
-                                ],
-                              ),
+                                ),
+                                SizedBox(width: 20.w),
+                                SizedBox(
+                                  width: 200.w,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text(
+                                        data['nameUz'],
+                                        style: TextStyle(
+                                            color: ColorConst.instance.white,
+                                            fontSize: 22.h),
+                                        overflow: TextOverflow.clip,
+                                        maxLines: 2,
+                                      ),
+                                      Text(
+                                        data['min'],
+                                        style: TextStyle(
+                                            color: ColorConst
+                                                .instance.kPrimaryColor,
+                                            fontSize: 18.h),
+                                        overflow: TextOverflow.clip,
+                                        maxLines: 2,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                      onTap: () {
-                        context.read<MashqCubit>().addVisiblitiy(true, index);
+                          ),
+                          onTap: () {
+                            context.read<MashqCubit>().addVisiblitiy(true,
+                                index, '${ApiConst.imagePrefix}${data['img']}');
+                          },
+                        );
                       },
                     );
+
+                    // SliverList(
+                    //   delegate: SliverChildBuilderDelegate(
+                    //     (context, index) {
+                    //      // var x = snapshot.data!.docs.length;
+                    //       return GestureDetector(
+                    //         child: Container(
+                    //           height: 76.h,
+                    //           width: 327.w,
+                    //           margin: EdgeInsets.symmetric(
+                    //               horizontal: 24.w, vertical: 7.5.h),
+                    //           decoration: BoxDecoration(
+                    //             borderRadius: BorderRadius.circular(16.r),
+                    //             color: ColorConst.instance.grey,
+                    //           ),
+                    //           child: Row(
+                    //             children: [
+                    //               Container(
+                    //                 height: 76.h,
+                    //                 width: 82.w,
+                    //                 decoration: BoxDecoration(
+                    //                   borderRadius: BorderRadius.horizontal(
+                    //                       left: Radius.circular(16.r)),
+                    //                   image: DecorationImage(
+                    //                     fit: BoxFit.cover,
+                    //                     image: AssetImage(
+                    //                         dataList.list![index].img!),
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //               SizedBox(width: 20.w),
+                    //               SizedBox(
+                    //                 width: 200.w,
+                    //                 child: Column(
+                    //                   crossAxisAlignment:
+                    //                       CrossAxisAlignment.start,
+                    //                   mainAxisAlignment:
+                    //                       MainAxisAlignment.spaceEvenly,
+                    //                   children: [
+                    //                     Text(
+                    //                       dataList.list![index].name![GetStorage()
+                    //                           .read(PreferenceKeys.TOKEN
+                    //                               .toString())],
+                    //                       style: TextStyle(
+                    //                           color: ColorConst.instance.white,
+                    //                           fontSize: 22.h),
+                    //                       overflow: TextOverflow.clip,
+                    //                       maxLines: 2,
+                    //                     ),
+                    //                     Text(
+                    //                       dataList.list![index].min!,
+                    //                       style: TextStyle(
+                    //                           color: ColorConst
+                    //                               .instance.kPrimaryColor,
+                    //                           fontSize: 18.h),
+                    //                       overflow: TextOverflow.clip,
+                    //                       maxLines: 2,
+                    //                     )
+                    //                   ],
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //         onTap: () {
+                    //           context
+                    //               .read<MashqCubit>()
+                    //               .addVisiblitiy(true, index);
+                    //         },
+                    //       );
+                    //     },
+                    //     childCount: 2,
+                    //   ),
+                    // );
                   },
-                  childCount: dataList.list!.length,
                 ),
               ),
             ],
@@ -221,7 +329,9 @@ class ExerciseView extends StatelessWidget {
                                 color: ColorConst.instance.red),
                           ),
                           onTap: () {
-                            context.read<MashqCubit>().addVisiblitiy(false, 0);
+                            context
+                                .read<MashqCubit>()
+                                .addVisiblitiy(false, 0, '');
                           },
                         ),
                         SizedBox(height: 40.h),
@@ -250,7 +360,8 @@ class ExerciseView extends StatelessWidget {
                             borderRadius: BorderRadius.circular(16.r),
                             image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: AssetImage(dataList.list![context.watch<MashqCubit>().imgIndex].img!),
+                              image:
+                                  NetworkImage(context.watch<MashqCubit>().img),
                             ),
                           ),
                         ),
