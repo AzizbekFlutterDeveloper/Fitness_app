@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:fitness_app/core/constants/enums/locale_kays_enum.dart';
 import 'package:fitness_app/core/init/cache/cache_manager.dart';
+import 'package:fitness_app/service/exercisea_service/set_user_info.dart';
 import 'package:fitness_app/service/firebase_auth/firebase_auth_service.dart';
 import 'package:fitness_app/view/3_login_view/cubit/login_state.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,6 +15,11 @@ class LoginCubit extends Cubit<LoginState> {
 
   final box = GetStorage();
 
+  //SingIn contrllores
+  TextEditingController emailControllerSI = TextEditingController();
+  TextEditingController passwordControllerSI = TextEditingController();
+
+  //SingUp contrlloers
   int tabBarCurrent = 0;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -73,19 +79,38 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   void signInEmail(context) {
-    if (emailController.text.isNotEmpty || passwordController.text.isNotEmpty) {
-      FirebaseAuthServise()
-          .loginUser(context, emailController.text, passwordController.text);
-    }else {
+    if (emailControllerSI.text.isNotEmpty &&
+        passwordControllerSI.text.isNotEmpty) {
+      FirebaseAuthServise().loginUser(
+          context, emailControllerSI.text, passwordControllerSI.text);
+    } else {
       FirebaseAuthServise().errorBox(context, 'Fields can not be empty');
     }
   }
 
   void registerUser(context) {
-    if (emailController.text.isNotEmpty || passwordController.text.isNotEmpty) {
-      FirebaseAuthServise().createUser(
-          context, emailController.text, againPasswordController.text);
-    }else {
+    DateTime now = DateTime.now();
+    DateTime date = DateTime(now.year, now.month, now.day);
+
+    if (emailController.text.isNotEmpty &&
+        passwordController.text.isNotEmpty &&
+        againPasswordController.text.isNotEmpty) {
+      if (passwordController.text == againPasswordController.text) {
+        FirebaseAuthServise().createUser(
+            context, emailController.text, againPasswordController.text);
+        FirebaseServise().setUserInfo(
+            age: 'age',
+            name: nameController.text,
+            email: emailController.text,
+            datetime: date.toString(),
+            gender: 'gender',
+            height: 'height',
+            job: 'job',
+            weight: 'weight');
+      } else {
+        FirebaseAuthServise().errorBox(context, 'Passwords mismatch');
+      }
+    } else {
       FirebaseAuthServise().errorBox(context, 'Fields can not be empty');
     }
   }

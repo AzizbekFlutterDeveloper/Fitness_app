@@ -36,6 +36,7 @@ class SignInView extends StatelessWidget {
                   children: [
                     SizedBox(height: 40.h),
                     TextFormField(
+                      controller: context.watch<LoginCubit>().emailControllerSI,
                       style: TextStyle(color: Colors.white, fontSize: 18.h),
                       decoration: InputDecoration(
                         hintText: "Email",
@@ -55,6 +56,7 @@ class SignInView extends StatelessWidget {
                     ),
                     SizedBox(height: 30.h),
                     TextFormField(
+                      controller: context.watch<LoginCubit>().passwordControllerSI,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18.h,

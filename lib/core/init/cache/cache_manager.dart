@@ -17,7 +17,7 @@ class LocaleManeger {
   }
 
   Future<void> setStringValue(PreferenceKeys key, String value) async {
-  //  await _preferences!.setString(key.toString(), value);
+  // await _preferences!.setString(key.toString(), value);
   }
 
   Future<void> setDoubelValue(PreferenceKeys key, double value) async {

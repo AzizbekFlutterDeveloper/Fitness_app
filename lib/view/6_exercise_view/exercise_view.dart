@@ -108,8 +108,9 @@ class ExerciseView extends StatelessWidget {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   i == 0
-                                      ? Icon(Icons.fitness_center)
-                                      : Icon(Icons.play_circle_filled_outlined),
+                                      ? const Icon(Icons.fitness_center)
+                                      : const Icon(
+                                          Icons.play_circle_filled_outlined),
                                   Text(
                                     i == 0
                                         ? "${MashqData.homeData[dataList.index!]['soni']}  ta"
@@ -144,14 +145,17 @@ class ExerciseView extends StatelessWidget {
               SliverToBoxAdapter(
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
-                      .collection(context.read<MashqCubit>().getCategory( MashqData.homeData[dataList.index!]['name']
-                        [GetStorage().read(PreferenceKeys.TOKEN.toString())]))
+                      .collection(context.read<MashqCubit>().getCategory(
+                          MashqData.homeData[dataList.index!]['name'][
+                              GetStorage()
+                                  .read(PreferenceKeys.TOKEN.toString())]))
                       .orderBy('id')
                       .snapshots(),
                   builder: (context, snapshot) {
                     var name = MashqData.homeData[dataList.index!]['name']
                         [GetStorage().read(PreferenceKeys.TOKEN.toString())];
                     debugger.log('@@@@ $name');
+                    debugger.log(context.read<MashqCubit>().getCategory(name));
                     if (!snapshot.hasData) {
                       return const Center(
                         child: CircularProgressIndicator(),
@@ -200,7 +204,7 @@ class ExerciseView extends StatelessWidget {
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Text(
-                                        data['nameUz'],
+                                        data[context.read<MashqCubit>().getLang(name)],
                                         style: TextStyle(
                                             color: ColorConst.instance.white,
                                             fontSize: 22.h),
