@@ -27,6 +27,21 @@ class FirebaseServise {
     });
   }
 
+  Future updateUserInf({
+    required String name,
+    required String email,
+  }) async {
+     SharedPreferences pref = await SharedPreferences.getInstance();
+     String? emailee = pref.getString('email');
+   
+   var fireBas = FirebaseFirestore.instance;
+     await fireBas.collection('Users').doc(emailee).update({
+      'email': email,
+      'name': name,
+    });
+  }
+  
+
   // Future<dynamic> getData() async {
   //   print(emailT);
   //   final DocumentReference document =

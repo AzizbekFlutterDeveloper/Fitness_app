@@ -23,11 +23,13 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+
+  final box = GetStorage();
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Map<String,dynamic>>(
+    return FutureBuilder<Map<String, dynamic>>(
       future: FirebaseServise().fetchUserData(),
-      builder: (context, AsyncSnapshot<Map<String,dynamic>> snapshot) {
+      builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
         var error = 'containerdagi malumotlar ${snapshot.data.toString()}';
         debugger.log('${snapshot.data}');
         if (!snapshot.hasData) {
@@ -44,6 +46,8 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   Widget infoPage(data) {
+
+  box.write(PreferenceKeys.NAME.toString(), data['name'].toString().split(' ')[0]??'');
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 40.h, horizontal: 28.w),
@@ -96,7 +100,9 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                       ),
                       Text(
-                        data == null ? ' ' : '${data['datetime'].toString().split(" ")[0]}',
+                        data == null
+                            ? ' '
+                            : '${data['datetime'].toString().split(" ")[0]}',
                         style: TextStyle(
                           color: ColorConst.instance.white,
                           fontSize: 18.h,
@@ -192,7 +198,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                 ),
                 onTap: () {
-                  GetStorage().write(PreferenceKeys.ISTRUE.toString(), " ");
+                  context.read<LoginCubit>().signOut(context);
                   Navigator.pushNamedAndRemoveUntil(
                       context, NavigationConst.SPLASH_VIEW, (route) => false);
                 },

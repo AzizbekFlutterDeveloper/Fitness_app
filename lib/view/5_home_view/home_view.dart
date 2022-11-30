@@ -23,7 +23,7 @@ class HomeView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-               GetStorage().read(PreferenceKeys.NAME.toString()),
+                GetStorage().read(PreferenceKeys.NAME.toString()),
                 style: TextStyle(
                   color: ColorConst.instance.white,
                   fontSize: 32.h,

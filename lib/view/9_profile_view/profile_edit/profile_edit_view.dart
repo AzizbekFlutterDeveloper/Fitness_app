@@ -155,7 +155,7 @@ class ProfileEtit extends StatelessWidget {
                       .formKey
                       .currentState!
                       .validate()) {
-                    context.read<LoginCubit>().changeName().then((value) {
+                    context.read<LoginCubit>().updateUserInfo().then((value) {
                       Navigator.pushNamedAndRemoveUntil(
                           context, NavigationConst.HOME, (route) => false);
                     });

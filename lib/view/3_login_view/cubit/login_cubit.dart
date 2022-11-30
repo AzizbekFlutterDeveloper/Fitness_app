@@ -75,7 +75,7 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   // Firebase functions
-  void signInGoogle(BuildContext context) {
+  void signInGoogle(BuildContext context) async {
     FirebaseAuthServise().signInWithGoogle(context);
   }
 
@@ -83,30 +83,32 @@ class LoginCubit extends Cubit<LoginState> {
     print("Sing in ga kirmoqda");
     if (emailControllerSI.text.isNotEmpty &&
         passwordControllerSI.text.isNotEmpty) {
-          print(emailControllerSI.text);
-        
+      print(emailControllerSI.text);
+
       FirebaseAuthServise().loginUser(
           context, emailControllerSI.text, passwordControllerSI.text);
-          GetStorage().write(PreferenceKeys.EMAIL.toString(), emailControllerSI.text);
-      
+      GetStorage()
+          .write(PreferenceKeys.EMAIL.toString(), emailControllerSI.text);
     } else {
       FirebaseAuthServise().errorBox(context, 'Fields can not be empty');
     }
   }
 
-  void registerUser(context)  {
+  void registerUser(context) {
     DateTime now = DateTime.now();
     DateTime date = DateTime(now.year, now.month, now.day);
-    
+
     if (emailController.text.isNotEmpty &&
         passwordController.text.isNotEmpty &&
         againPasswordController.text.isNotEmpty) {
-     
-
+          
       if (passwordController.text == againPasswordController.text) {
-        
         FirebaseAuthServise().createUser(
-            context, emailController.text, againPasswordController.text,nameController.text,);
+          context,
+          emailController.text,
+          againPasswordController.text,
+          nameController.text,
+        );
         FirebaseServise().setUserInfo(
             age: 'age',
             name: nameController.text,
@@ -116,7 +118,8 @@ class LoginCubit extends Cubit<LoginState> {
             height: 'height',
             job: 'job',
             weight: 'weight');
-        GetStorage().write(PreferenceKeys.EMAIL.toString(), emailControllerSI.text);    
+        GetStorage()
+            .write(PreferenceKeys.EMAIL.toString(), emailControllerSI.text);
       } else {
         FirebaseAuthServise().errorBox(context, 'Passwords mismatch');
       }
@@ -125,7 +128,13 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
-  void signOut(context) {
+ 
+
+  void signOut(context) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.remove('email');
+    pref.remove('name');
+
     FirebaseAuthServise().signOut(context);
   }
 
@@ -151,5 +160,10 @@ class LoginCubit extends Cubit<LoginState> {
     box.write(PreferenceKeys.EMAIL.toString(), emailController.text);
     box.write(PreferenceKeys.IMAGE.toString(), imageFile.path);
     emit(NameState());
+  }
+
+  Future updateUserInfo() async {
+    FirebaseServise()
+        .updateUserInf(name: nameController.text, email: emailController.text);
   }
 }
