@@ -1,13 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:developer' as debugger;
-
-import 'package:fitness_app/core/data/mashq_data/mashq_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FirebaseServise {
   final fireBase = FirebaseFirestore.instance;
   dynamic datas = '';
-  String emailT = '';
 
   Future setUserInfo(
       {required String age,
@@ -18,7 +15,6 @@ class FirebaseServise {
       required String height,
       required String job,
       required String weight}) async {
-    emailT = email;
     return await fireBase.collection('Users').doc(email).set({
       'age': age,
       'datetime': datetime,
@@ -31,16 +27,17 @@ class FirebaseServise {
     });
   }
 
-  Future<dynamic> getData() async {
-    final DocumentReference document =
-        FirebaseFirestore.instance.collection("Users").doc('sss@gmail.com');
-    var dd = emailT;
-    await document.get().then<dynamic>((DocumentSnapshot snapshot) async {
-      datas = snapshot.data;
-    });
+  // Future<dynamic> getData() async {
+  //   print(emailT);
+  //   final DocumentReference document =
+  //       FirebaseFirestore.instance.collection("Users").doc('sss@gmail.com');
+  //   var dd = emailT;
+  //   await document.get().then<dynamic>((DocumentSnapshot snapshot) async {
+  //     datas = snapshot.data;
+  //   });
 
-    return datas;
-  }
+  //   return datas;
+  // }
 
   getDataT() async {
     //use a Async-await function to get the data
@@ -75,7 +72,7 @@ class FirebaseServise {
   Future<Map<String, dynamic>> fetchUserData() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     String? email = pref.getString('email');
-   // email = null;
+    // email = null;
     try {
       var data = await FirebaseFirestore.instance
           .collection('Users')
