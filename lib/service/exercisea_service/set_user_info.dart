@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fitness_app/core/constants/enums/locale_kays_enum.dart';
+import 'package:get_storage/get_storage.dart';
 import 'dart:developer' as debugger;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -71,9 +73,11 @@ class FirebaseServise {
 
   Future<Map<String, dynamic>> fetchUserData() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    String? email = pref.getString('email');
+    String? email = GetStorage().read(PreferenceKeys.EMAIL.toString());
     // email = null;
+    print("$email 1");
     try {
+      print("Kutmoqda");
       var data = await FirebaseFirestore.instance
           .collection('Users')
           .doc(email ?? 'sss@gmail.com')
@@ -81,12 +85,14 @@ class FirebaseServise {
           .then(
         (DocumentSnapshot doc) {
           final data = doc.data() as Map<String, dynamic>;
+          print(data);
           return data;
         },
         onError: (e) => print("Error getting document: $e"),
       );
       return data;
     } catch (e) {
+      print(e);
       return Map();
     }
   }
