@@ -554,31 +554,31 @@ class MashqData {
 
   static List homeData = [
     {
-      "name": ["Qo'llar uchun", "Для рук"],
+      "name": ["Qo'llar uchun", "Упражнения для мышц рук"],
       "soni": "22",
       "min": "6.5",
       'img': "assets/images/qol_home.webp"
     },
     {
-      "name": ["Oyoqlar uchun", "Для ног"],
+      "name": ["Oyoqlar uchun", "Упражнения для мышц ног."],
       "soni": "10",
       "min": "5.0",
       'img': "assets/images/oyoq_image.jpg"
     },
     {
-      "name": ["Press uchun","Для прессы"],
+      "name": ["Press uchun","Упражнения для прямой мышцы живота."],
       "soni": "11",
       "min": "5.5",
       'img': "assets/images/pres.jpg"
     },
     {
-      "name": ["Turnik", "Tурник"],
+      "name": ["Turnik", "Упражнения на перекладине"],
       "soni": "18",
       "min": "5.5",
       'img': "assets/images/turnik.jpg"
     },
     {
-      "name": ["Brus", "Брюс"],
+      "name": ["Brus", "Упражнения на брусьях."],
       "soni": "9",
       "min": "5.5",
       'img': "assets/images/brus.jpg"

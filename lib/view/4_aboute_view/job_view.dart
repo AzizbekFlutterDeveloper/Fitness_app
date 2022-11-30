@@ -47,7 +47,8 @@ class JobView extends StatelessWidget {
             ),
             SizedBox(height: 12.h),
             Text(
-              LocaleKeys.bu_sizni_shaxsiy_rejangizni_yaratishda_kerak_boladi.t.toUpperCase(),
+              LocaleKeys.bu_sizni_shaxsiy_rejangizni_yaratishda_kerak_boladi.t
+                  .toUpperCase(),
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: ColorConst.instance.white,
@@ -57,7 +58,6 @@ class JobView extends StatelessWidget {
             SizedBox(height: 60.h),
             SizedBox(
               height: 420.h,
-              
               child: WheelChooser(
                 isInfinite: true,
                 listHeight: 400.w,
@@ -72,42 +72,46 @@ class JobView extends StatelessWidget {
                   inherit: true,
                   color: ColorConst.instance.white,
                 ),
-                datas: MashqData.jobsList[GetStorage().read(PreferenceKeys.TOKEN.toString())],
+                datas: MashqData.jobsList[
+                    GetStorage().read(PreferenceKeys.TOKEN.toString())],
                 onValueChanged: (v) {
                   context.read<AbouteCubit>().chanegeIshi(v);
                 },
               ),
             ),
             const Spacer(),
-            context.watch<AbouteCubit>().isEmpty == false? SizedBox(): Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GestureDetector(
-                  child: Container(
-                    height: 50.h,
-                    width: 125.w,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(48.r),
-                      color: ColorConst.instance.kPrimaryColor,
-                    ),
-                    child: Center(
-                      child: Text(
-                        LocaleKeys.keyingisi.t,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 15.h,
-                          fontWeight: FontWeight.w700,
+            context.watch<AbouteCubit>().isEmpty == false
+                ? SizedBox()
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GestureDetector(
+                        child: Container(
+                          height: 50.h,
+                          width: 125.w,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(48.r),
+                            color: ColorConst.instance.kPrimaryColor,
+                          ),
+                          child: Center(
+                            child: Text(
+                              LocaleKeys.keyingisi.t,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15.h,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
                         ),
+                        onTap: () {
+                          context.read<AbouteCubit>().addIshi();
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              NavigationConst.HOME, (route) => false);
+                        },
                       ),
-                    ),
+                    ],
                   ),
-                  onTap: () {
-                    context.read<AbouteCubit>().addIshi();
-                    Navigator.pushNamed(context, NavigationConst.HOME);
-                  },
-                ),
-              ],
-            ),
           ],
         ),
       ),

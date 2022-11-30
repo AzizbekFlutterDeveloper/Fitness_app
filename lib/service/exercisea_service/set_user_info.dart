@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fitness_app/service/firebase_auth/firebase_auth_service.dart';
+import 'dart:developer' as debugger;
+
+import 'package:fitness_app/core/data/mashq_data/mashq_data.dart';
 
 class FirebaseServise {
   final fireBase = FirebaseFirestore.instance;
@@ -30,41 +32,75 @@ class FirebaseServise {
 
   Future<dynamic> getData() async {
     final DocumentReference document =
-        FirebaseFirestore.instance.collection("Users").doc('sss@gmail.com');
+        FirebaseFirestore.instance.collection("Users").doc(emailT);
     var dd = emailT;
     await document.get().then<dynamic>((DocumentSnapshot snapshot) async {
       datas = snapshot.data;
-      
     });
-    
+
     return datas;
   }
 
-    getDataT() async {
+  getDataT() async {
     //use a Async-await function to get the data
     final data = await FirebaseFirestore.instance
         .collection("Users")
-        .doc('sss@gmail.com')
+        .doc(emailT)
         .get(); //get the data
-    
-    
+
     return data;
   }
 
   Future<Map<dynamic, dynamic>> fetchData() async {
-  final _firestore = FirebaseFirestore.instance;
-  late Map<dynamic, dynamic> data;
+    final firestore = FirebaseFirestore.instance;
+    late Map<String, dynamic> data;
 
-  try {
-    await _firestore
-        .collection('Users')
-        .limit(1)
-        .get()
-        .then((value) => data = value.docs.first.data());
-  } catch (e) {
-    print(e);
+    try {
+      await firestore.collection('Users').doc(emailT).get().then(
+        (DocumentSnapshot doc) {
+          print(doc.toString());
+          data = doc.data() as Map<String, dynamic>;
+          debugger.log('$data');
+          return doc.data() as Map<String, dynamic>;
+        },
+        onError: (e) => debugger.log("Error getting document: $e"),
+      );
+    } catch (e) {
+      print(e);
+    }
+    return Map();
   }
-  return data;
-}
-  
+
+  Future<Map<String, dynamic>> fetchUserData() async {
+    try {
+      var data = await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(emailT)
+          .get()
+          .then(
+        (DocumentSnapshot doc) {
+          final data = doc.data() as Map<String, dynamic>;
+          return data;
+        },
+        onError: (e) => print("Error getting document: $e"),
+      );
+      return data;
+    } catch (e) {
+      return Map();
+    }
+  }
+
+  Future getExercises(String category) async {
+    try {
+      var snapshots = await FirebaseFirestore.instance
+          .collection(category)
+          .orderBy('id')
+          .get();
+      debugger.log('@@@@ data  ${snapshots.docs}');
+
+      return snapshots;
+    } catch (e) {
+      debugger.log('Error $e');
+    }
+  }
 }

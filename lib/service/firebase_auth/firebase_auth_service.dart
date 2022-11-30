@@ -25,7 +25,7 @@ class FirebaseAuthServise {
       // Navigator.pushNamed(context, NavigationConst.GENDER);
 
       return await FirebaseAuth.instance.signInWithCredential(credential).then(
-          (value) => Navigator.pushNamed(context, NavigationConst.GENDER));
+          (value) => Navigator.of(context).pushNamedAndRemoveUntil(NavigationConst.GENDER, (route) => false));
     } on PlatformException catch (e) {
       print('Failed with error code: ${e.code}');
       print(e.message);
@@ -39,7 +39,7 @@ class FirebaseAuthServise {
       await auth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then(
-              (value) => Navigator.pushNamed(context, NavigationConst.GENDER));
+              (value) =>Navigator.of(context).pushNamedAndRemoveUntil(NavigationConst.GENDER, (route) => false));
     } on FirebaseAuthException catch (e) {
       print('Failed with error code: ${e.code}');
       print(e.message);
@@ -53,7 +53,7 @@ class FirebaseAuthServise {
       await auth
           .signInWithEmailAndPassword(email: email, password: password)
           .then(
-              (value) => Navigator.pushNamed(context, NavigationConst.GENDER));
+              (value) => Navigator.of(context).pushNamedAndRemoveUntil(NavigationConst.GENDER, (route) => false));
     } on FirebaseAuthException catch (e) {
       print('Failed with error code: ${e.code}');
 
