@@ -32,3 +32,4 @@ shared_preferences_linux=/home/jaloliddin/Documents/flutterdev/flutter/.pub-cach
 shared_preferences_macos=/home/jaloliddin/Documents/flutterdev/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_macos-2.0.4/
 shared_preferences_web=/home/jaloliddin/Documents/flutterdev/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_web-2.0.4/
 shared_preferences_windows=/home/jaloliddin/Documents/flutterdev/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_windows-2.1.1/
+sqflite=/home/jaloliddin/Documents/flutterdev/flutter/.pub-cache/hosted/pub.dartlang.org/sqflite-2.2.0+3/
