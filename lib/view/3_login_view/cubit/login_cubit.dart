@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial());
@@ -88,16 +89,18 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
-  void registerUser(context) {
+  void registerUser(context)  {
     DateTime now = DateTime.now();
     DateTime date = DateTime(now.year, now.month, now.day);
-
+    
     if (emailController.text.isNotEmpty &&
         passwordController.text.isNotEmpty &&
         againPasswordController.text.isNotEmpty) {
+     
+
       if (passwordController.text == againPasswordController.text) {
         FirebaseAuthServise().createUser(
-            context, emailController.text, againPasswordController.text);
+            context, emailController.text, againPasswordController.text,nameController.text,);
         FirebaseServise().setUserInfo(
             age: 'age',
             name: nameController.text,
