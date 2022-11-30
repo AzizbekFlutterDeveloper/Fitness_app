@@ -42,7 +42,7 @@ class _SplashViewState extends State<SplashView> {
           SizedBox(
             height: 122.h,
             width: 293.w,
-            child: AutoSizeText("Jismoniy Faolik",style: TextStyle(color: Colors.black, fontSize: 45.sp,fontWeight: FontWeight.w700),),
+            child: AutoSizeText("Jismoniy Faolik",style: TextStyle(color: Colors.black, fontSize: 45.sp,fontWeight: FontWeight.w700),textAlign: TextAlign.center,),
           ),
         ],
       ),

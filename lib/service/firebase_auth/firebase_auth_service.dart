@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../core/constants/navigation_const/navigation_const.dart';
@@ -70,13 +71,16 @@ class FirebaseAuthServise {
   }
 
   void errorBox(context, e) {
-    showDialog(
-        context: context,
-        builder: ((context) {
-          return AlertDialog(
-            title: const Text('error'),
-            content: Text(e.toString()),
-          );
-        }));
+    Fluttertoast.showToast(
+      msg: e.toString(),
+    );
+    // showDialog(
+    //     context: context,
+    //     builder: ((context) {
+    //       return AlertDialog(
+    //         title: const Text('error'),
+    //         content: Text(e.toString()),
+    //       );
+    //     }));
   }
 }

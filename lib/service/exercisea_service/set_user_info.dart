@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fitness_app/core/constants/enums/locale_kays_enum.dart';
 import 'dart:developer' as debugger;
 
 import 'package:fitness_app/core/data/mashq_data/mashq_data.dart';
+import 'package:fitness_app/core/init/cache/cache_manager.dart';
+import 'package:get_storage/get_storage.dart';
 
 class FirebaseServise {
   final fireBase = FirebaseFirestore.instance;
   dynamic datas = '';
-  String emailT = '';
+  String emailT = GetStorage().read(PreferenceKeys.EMAIL.toString())?? " ";
 
   Future setUserInfo(
       {required String age,
@@ -31,6 +34,7 @@ class FirebaseServise {
   }
 
   Future<dynamic> getData() async {
+    print(emailT);
     final DocumentReference document =
         FirebaseFirestore.instance.collection("Users").doc(emailT);
     var dd = emailT;
@@ -72,6 +76,7 @@ class FirebaseServise {
   }
 
   Future<Map<String, dynamic>> fetchUserData() async {
+    print("Firebasega jonatilgan email ${GetStorage().read(PreferenceKeys.EMAIL.toString())} $emailT");
     try {
       var data = await FirebaseFirestore.instance
           .collection('Users')
@@ -86,6 +91,7 @@ class FirebaseServise {
       );
       return data;
     } catch (e) {
+      print(e);
       return Map();
     }
   }

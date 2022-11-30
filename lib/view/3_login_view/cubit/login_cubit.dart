@@ -79,10 +79,15 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   void signInEmail(context) {
+    print("Sing in ga kirmoqda");
     if (emailControllerSI.text.isNotEmpty &&
         passwordControllerSI.text.isNotEmpty) {
+          print(emailControllerSI.text);
+        
       FirebaseAuthServise().loginUser(
           context, emailControllerSI.text, passwordControllerSI.text);
+          GetStorage().write(PreferenceKeys.EMAIL.toString(), emailControllerSI.text);
+      
     } else {
       FirebaseAuthServise().errorBox(context, 'Fields can not be empty');
     }
@@ -96,6 +101,7 @@ class LoginCubit extends Cubit<LoginState> {
         passwordController.text.isNotEmpty &&
         againPasswordController.text.isNotEmpty) {
       if (passwordController.text == againPasswordController.text) {
+        
         FirebaseAuthServise().createUser(
             context, emailController.text, againPasswordController.text);
         FirebaseServise().setUserInfo(
@@ -107,6 +113,7 @@ class LoginCubit extends Cubit<LoginState> {
             height: 'height',
             job: 'job',
             weight: 'weight');
+        GetStorage().write(PreferenceKeys.EMAIL.toString(), emailControllerSI.text);    
       } else {
         FirebaseAuthServise().errorBox(context, 'Passwords mismatch');
       }
