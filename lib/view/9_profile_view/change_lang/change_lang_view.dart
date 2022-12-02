@@ -5,7 +5,9 @@ import 'package:fitness_app/core/constants/navigation_const/navigation_const.dar
 import 'package:fitness_app/core/extension/text_lang_extension/lang_extension.dart';
 import 'package:fitness_app/core/init/lang/locale_keys.g.dart';
 import 'package:fitness_app/core/init/lang/locale_manager.dart';
+import 'package:fitness_app/view/3_login_view/cubit/login_cubit.dart';
 import 'package:fitness_app/view/5_home_view/cubit/home_cubit.dart';
+import 'package:fitness_app/view/6_exercise_view/cubit/mashq_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -30,7 +32,8 @@ class ChangaLangView extends StatelessWidget {
               "assets/icons/Circle Left.svg",
             ),
             onTap: () {
-              Navigator.pushNamedAndRemoveUntil(context, NavigationConst.HOME, (route) => false);
+              Navigator.pushNamedAndRemoveUntil(
+                  context, NavigationConst.HOME, (route) => false);
             },
           ),
         ),
@@ -60,9 +63,10 @@ class ChangaLangView extends StatelessWidget {
                   fontSize: 20.h,
                 ),
               ),
-              onTap: (){
-               context.setLocale(LangManager.instance.uzLocale);
-               context.read<HomeCubit>().changeLang(0);
+              onTap: () {
+                context.setLocale(LangManager.instance.uzLocale);
+                context.read<HomeCubit>().changeLang(0);
+                
               },
             ),
             Divider(
@@ -77,10 +81,10 @@ class ChangaLangView extends StatelessWidget {
                   fontSize: 20.h,
                 ),
               ),
-              onTap: (){
-
-               context.setLocale(LangManager.instance.ruLocale);
-               context.read<HomeCubit>().changeLang(1);
+              onTap: () {
+                context.setLocale(LangManager.instance.ruLocale);
+                context.read<HomeCubit>().changeLang(1);
+               
               },
             ),
             Divider(

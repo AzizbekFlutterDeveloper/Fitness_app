@@ -7,6 +7,7 @@ class MashqCubit extends Cubit<MashqState> {
   bool isVisiblitiy = false;
   int imgIndex = 0;
   String img = '';
+  String name = '';
 
   void addVisiblitiy(bool visible, int index, String imge) {
     isVisiblitiy = visible;
@@ -15,18 +16,49 @@ class MashqCubit extends Cubit<MashqState> {
     emit(VisibilityState());
   }
 
-  String getCategory(String name) {
-
-        switch (name) {
+  String getLang(String name) {
+    switch (name) {
       case 'Qo\'llar uchun':
+              return 'nameUz';
+      case 'Для рук':
+        return 'nameRu';
+      case 'Oyoqlar uchun':
+              return 'nameUz';
+      case 'Для ног':
+        return 'nameRu';
+      case 'Press uchun':
+              return 'nameUz';
+      case 'Для прессы':
+        return 'nameRu';
+      case 'Turnik':
+              return 'nameUz';
+      case 'Tурник':
+        return 'nameRu';
+      case 'Brus':
+              return 'nameUz';
+      case 'Брюс':
+        return 'nameRu';
+      default:
+        return 'nameUz';
+    }
+  }
+
+  String getCategory(String name) {
+    switch (name) {
+      case 'Qo\'llar uchun':
+      case 'Для рук':
         return 'Qol';
       case 'Oyoqlar uchun':
+      case 'Для ног':
         return 'Ayoq';
       case 'Press uchun':
+      case 'Для прессы':
         return 'Pres';
       case 'Turnik':
+      case 'Tурник':
         return 'Turnik';
       case 'Brus':
+      case 'Брюс':
         return 'Burus';
       default:
         return 'Qol';

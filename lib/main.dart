@@ -13,10 +13,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp();
+
+  SharedPreferences pref = await SharedPreferences.getInstance();
 
   await GetStorage.init();
   if (GetStorage().read(PreferenceKeys.ISTRUE.toString()) != "true") {
@@ -37,13 +40,14 @@ void main() async {
       supportedLocales: LangManager.instance.supportLocale,
       startLocale: LangManager.instance.uzLocale,
       fallbackLocale: LangManager.instance.uzLocale,
-      child: MyApp(),
+      child: MyApp( email: pref.getString('email')),
     ),
   ));
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+ late String? email;
+  MyApp({Key? key,required this.email}) : super(key: key);
 
   final _forRoute = MyRoutes.instance;
 
