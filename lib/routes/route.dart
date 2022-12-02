@@ -11,6 +11,7 @@ import 'package:fitness_app/view/4_aboute_view/width_view.dart';
 import 'package:fitness_app/view/5_home_view/home_view.dart';
 import 'package:fitness_app/view/6_exercise_view/exercise_view.dart';
 import 'package:fitness_app/view/7_notification_view/notification_view.dart';
+import 'package:fitness_app/view/8_sitatistika_view/sitatistika_view.dart';
 import 'package:fitness_app/view/9_profile_view/about_page/about_page.dart';
 import 'package:fitness_app/view/9_profile_view/change_lang/change_lang_view.dart';
 import 'package:fitness_app/view/9_profile_view/profile_edit/profile_edit_view.dart';
@@ -52,6 +53,8 @@ class MyRoutes {
         return normalNavigate(ProfileEtit());
       case NavigationConst.CHANGE_LANG:
         return normalNavigate(ChangaLangView());
+        case NavigationConst.INSIGHT:
+        return normalNavigate(HealthApp());
        case NavigationConst.ABOUT:
         return normalNavigate(AboutPage());
       case NavigationConst.EXERCISE:
