@@ -8,6 +8,7 @@ import 'package:fitness_app/routes/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({Key? key}) : super(key: key);
@@ -17,17 +18,22 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
-
   @override
-  void initState() {
+  void initState()  {
+   
     super.initState();
-    Future.delayed(Duration(seconds: 4)).then((value) {
-      GetStorage().read(PreferenceKeys.ISTRUE.toString()) == "true" ?Navigator.pushNamedAndRemoveUntil(context, NavigationConst.HOME, (route) => false)  : Navigator.pushNamedAndRemoveUntil(context, NavigationConst.ON_BORDING, (route) => false);
+    Future.delayed(Duration(seconds: 4)).then((value) async{
+       SharedPreferences pref = await SharedPreferences.getInstance();
+      pref.getString('email') != null
+          ? Navigator.pushNamedAndRemoveUntil(
+              context, NavigationConst.HOME, (route) => false)
+          : Navigator.pushNamedAndRemoveUntil(
+              context, NavigationConst.LOGIN_VIEW, (route) => false);
     });
   }
+
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: ColorConst.instance.white,
       body: Column(
@@ -42,7 +48,14 @@ class _SplashViewState extends State<SplashView> {
           SizedBox(
             height: 122.h,
             width: 293.w,
-            child: AutoSizeText("Jismoniy Faolik",style: TextStyle(color: Colors.black, fontSize: 45.sp,fontWeight: FontWeight.w700),),
+            child: AutoSizeText(
+              "Jismoniy Faolik",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 45.sp,
+                  fontWeight: FontWeight.w700),
+              textAlign: TextAlign.center,
+            ),
           ),
         ],
       ),

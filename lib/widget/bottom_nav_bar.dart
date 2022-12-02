@@ -25,14 +25,19 @@ class BottomNavBar extends StatelessWidget {
     ];
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: BlocProvider(
-        create: (context) => HomeCubit(),
-        child: BlocConsumer<HomeCubit, HomeState>(
-          listener: (context, state) {},
-          builder: (context, state) {
-            return _scaffold(context);
-          },
+    return WillPopScope(
+      onWillPop: () async{
+        return false;
+      },
+      child: SafeArea(
+        child: BlocProvider(
+          create: (context) => HomeCubit(),
+          child: BlocConsumer<HomeCubit, HomeState>(
+            listener: (context, state) {},
+            builder: (context, state) {
+              return _scaffold(context);
+            },
+          ),
         ),
       ),
     );

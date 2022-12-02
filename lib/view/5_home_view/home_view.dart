@@ -3,6 +3,7 @@ import 'package:fitness_app/core/constants/enums/locale_kays_enum.dart';
 import 'package:fitness_app/core/constants/navigation_const/navigation_const.dart';
 import 'package:fitness_app/core/data/mashq_data/mashq_data.dart';
 import 'package:fitness_app/core/extension/text_lang_extension/lang_extension.dart';
+import 'package:fitness_app/core/init/cache/cache_manager.dart';
 import 'package:fitness_app/core/init/lang/locale_keys.g.dart';
 import 'package:fitness_app/model/mashq_model.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,8 @@ class HomeView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          MashqData.homeData[i]['name'][GetStorage().read(PreferenceKeys.TOKEN.toString())],
+                          MashqData.homeData[i]['name'][GetStorage()
+                              .read(PreferenceKeys.TOKEN.toString())],
                           style: TextStyle(
                             color: ColorConst.instance.white,
                             fontSize: 22.h,

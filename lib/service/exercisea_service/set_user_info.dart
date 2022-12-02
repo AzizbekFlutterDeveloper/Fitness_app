@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fitness_app/core/constants/enums/locale_kays_enum.dart';
+import 'package:get_storage/get_storage.dart';
 import 'dart:developer' as debugger;
-
-import 'package:fitness_app/core/data/mashq_data/mashq_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FirebaseServise {
   final fireBase = FirebaseFirestore.instance;
   dynamic datas = '';
-  String emailT = '';
 
   Future setUserInfo(
       {required String age,
@@ -17,7 +17,6 @@ class FirebaseServise {
       required String height,
       required String job,
       required String weight}) async {
-    emailT = email;
     return await fireBase.collection('Users').doc(email).set({
       'age': age,
       'datetime': datetime,
@@ -30,22 +29,38 @@ class FirebaseServise {
     });
   }
 
-  Future<dynamic> getData() async {
-    final DocumentReference document =
-        FirebaseFirestore.instance.collection("Users").doc(emailT);
-    var dd = emailT;
-    await document.get().then<dynamic>((DocumentSnapshot snapshot) async {
-      datas = snapshot.data;
+  Future updateUserInf({
+    required String name,
+    required String email,
+  }) async {
+     SharedPreferences pref = await SharedPreferences.getInstance();
+     String? emailee = pref.getString('email');
+   
+   var fireBas = FirebaseFirestore.instance;
+     await fireBas.collection('Users').doc(emailee).update({
+      'email': email,
+      'name': name,
     });
-
-    return datas;
   }
+  
+
+  // Future<dynamic> getData() async {
+  //   print(emailT);
+  //   final DocumentReference document =
+  //       FirebaseFirestore.instance.collection("Users").doc('sss@gmail.com');
+  //   var dd = emailT;
+  //   await document.get().then<dynamic>((DocumentSnapshot snapshot) async {
+  //     datas = snapshot.data;
+  //   });
+
+  //   return datas;
+  // }
 
   getDataT() async {
     //use a Async-await function to get the data
     final data = await FirebaseFirestore.instance
         .collection("Users")
-        .doc(emailT)
+        .doc('sss@gmail.com')
         .get(); //get the data
 
     return data;
@@ -56,7 +71,7 @@ class FirebaseServise {
     late Map<String, dynamic> data;
 
     try {
-      await firestore.collection('Users').doc(emailT).get().then(
+      await firestore.collection('Users').doc('ddd').get().then(
         (DocumentSnapshot doc) {
           print(doc.toString());
           data = doc.data() as Map<String, dynamic>;
@@ -72,20 +87,27 @@ class FirebaseServise {
   }
 
   Future<Map<String, dynamic>> fetchUserData() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String? email = GetStorage().read(PreferenceKeys.EMAIL.toString());
+    // email = null;
+    print("$email 1");
     try {
+      print("Kutmoqda");
       var data = await FirebaseFirestore.instance
           .collection('Users')
-          .doc(emailT)
+          .doc(email ?? 'sss@gmail.com')
           .get()
           .then(
         (DocumentSnapshot doc) {
           final data = doc.data() as Map<String, dynamic>;
+          print(data);
           return data;
         },
         onError: (e) => print("Error getting document: $e"),
       );
       return data;
     } catch (e) {
+      print(e);
       return Map();
     }
   }

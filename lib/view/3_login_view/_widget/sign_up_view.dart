@@ -187,6 +187,7 @@ class SignUp extends StatelessWidget {
                           ),
                           onTap: () {
                             context.read<LoginCubit>().registerUser(context);
+                            context.read<LoginCubit>().addName();
 
                             // FirebaseAuthServise().createUser(
                             //     context, 'email@gmail.com', "passwordsss");

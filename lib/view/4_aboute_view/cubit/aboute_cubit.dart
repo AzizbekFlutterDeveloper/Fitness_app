@@ -3,6 +3,7 @@ import 'package:fitness_app/core/init/cache/cache_manager.dart';
 import 'package:fitness_app/core/init/lang/locale_keys.g.dart';
 import 'package:fitness_app/view/4_aboute_view/cubit/aboute_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_storage/get_storage.dart';
 
 class AbouteCubit extends Cubit<AbouteState> {
   AbouteCubit() : super(AbouteInitial());
@@ -42,6 +43,7 @@ class AbouteCubit extends Cubit<AbouteState> {
   }
    void addIshi(){
     isEmpty = false;
+    GetStorage().write(PreferenceKeys.ISTRUE.toString(),"true");
     LocaleManeger.instance.setStringValue(PreferenceKeys.ISH, ishi);
     emit(GenderState());
   }
