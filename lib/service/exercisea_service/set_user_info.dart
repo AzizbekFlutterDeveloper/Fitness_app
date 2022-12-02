@@ -125,4 +125,18 @@ class FirebaseServise {
       debugger.log('Error $e');
     }
   }
+
+
+    Future getMusics() async {
+    try {
+      var snapshots = await FirebaseFirestore.instance
+          .collection("musics")
+          .get();
+      debugger.log('@@@@ data  ${snapshots.docs}');
+
+      return snapshots;
+    } catch (e) {
+      debugger.log('Error $e');
+    }
+  }
 }

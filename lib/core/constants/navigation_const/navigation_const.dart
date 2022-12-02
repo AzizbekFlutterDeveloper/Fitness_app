@@ -13,4 +13,5 @@ class NavigationConst{
   static const String PROFILE_EDIT = "/edit";
   static const String CHANGE_LANG = '/change_lang';
   static const String ABOUT = "/aboute";
+  static const String INSIGHT = "/insight";
 }

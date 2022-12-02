@@ -164,6 +164,7 @@ class ExerciseView extends StatelessWidget {
                                   .read(PreferenceKeys.TOKEN.toString())];
                           QueryDocumentSnapshot data =
                               snapshot.data!.docs[index];
+                          
                           return GestureDetector(
                             child: Container(
                               height: 76.h,
@@ -184,8 +185,10 @@ class ExerciseView extends StatelessWidget {
                                           left: Radius.circular(16.r)),
                                       child: FadeInImage.assetNetwork(
                                         fit: BoxFit.cover,
-                                        placeholder:"assets/images/loading.gif",
-                                        image: '${ApiConst.imagePrefix}${data['img']}',
+                                        placeholder:
+                                            "assets/images/loading.gif",
+                                        image:
+                                            '${ApiConst.BASE_URL}${data['img']}',
                                       ),
                                     ),
                                   ),
@@ -227,11 +230,11 @@ class ExerciseView extends StatelessWidget {
                               context.read<MashqCubit>().addVisiblitiy(
                                   true,
                                   index,
-                                  '${ApiConst.imagePrefix}${data['img']}');
+                                  '${ApiConst.BASE_URL}${data['img']}');
                             },
                           );
                         },
-                        childCount: 2,
+                        childCount: snapshot.data.docs.length,
                       ),
                     ),
                   ],
