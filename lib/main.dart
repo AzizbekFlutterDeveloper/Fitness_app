@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: ThemeDataL.myTheme,
-          initialRoute: NavigationConst.INSIGHT,
+          initialRoute: NavigationConst.SPLASH_VIEW,
           onGenerateRoute: _forRoute.ongenerateRoute,
         );
       },

@@ -11,16 +11,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class StatisticsCubit extends Cubit<StatisticsState> {
   StatisticsCubit() : super(StatiscticsInitial());
 
-  bool isDownloading = false;
-
-  void loadMusic() {
-    isDownloading = !isDownloading;
+  List<bool> isDownloading = [];
+  List<bool> isDiskAnimation = [];
+  void loadMusic(int index) {
+    isDownloading[index] = !isDownloading[index];
     emit(LoadState());
   }
 
   final audioPlayer = AssetsAudioPlayer();
+  
+  List<AssetsAudioPlayer> audioPlayes = [];
 
   bool isPlay = false;
+  
+  addListFalse(int length){
+    isDownloading = List.generate(length, (index) => false);
+    isDiskAnimation = List.generate(length, (index) => false);
+    audioPlayes = List.generate(length,(index) => AssetsAudioPlayer(),);
+    emit(LoadState());
+  }
 
   var audio = Audio.network(
     "https://96.f.1ting.com/local_to_cube_202004121813/96kmp3/2021/04/16/16b_am/01.mp3",
@@ -40,6 +49,7 @@ class StatisticsCubit extends Cubit<StatisticsState> {
     String? artist,
     String? album,
     String? imageUrl,
+    int? index
   }) {
     audio = Audio.network(
       audioUrl,
@@ -54,49 +64,67 @@ class StatisticsCubit extends Cubit<StatisticsState> {
       ),
     );
 
-    audioPlayer.open(
+    audioPlayes[index!].open(
       audio,
       autoStart: true,
       showNotification: true,
       notificationSettings: NotificationSettings(
         customPlayPauseAction: ((player) {
-          audioPlay();
+          audioPlay(index);
         }),
       ),
     );
-    audioPlay();
+
+    for (var i = 0; i < isDiskAnimation.length; i++) {
+      if(i == index){
+        isDiskAnimation[i] = true;
+        
+      }else{
+        audioPlayes[i].stop();
+        print("Stop");
+        emit(LoadState());
+        isDownloading[i] = false;
+      }
+    }
+    audioPlay(index);
+    emit(LoadState());
     // addPosition();
   }
-  void isStop(){
-    audioPlayer.stop();
+  
+  
+
+
+  void isStop(int index){
+    isDiskAnimation[index] = !isDiskAnimation[index];
+    audioPlayes[index].stop();
     emit(LoadState());
   }
-  void audioPlay() {
+  void audioPlay(int index) {
+    print(index);
     isPlay = !isPlay;
-    isPlay ? audioPlayer.play() : audioPlayer.pause();
+    isDiskAnimation[index] = !isDiskAnimation[index];
+    isPlay ? audioPlayes[index].play() : audioPlayes[index].pause();
     emit(LoadState());
   }
 
-  void audioSeek(var value) {
+  void audioSeek(var value,int index) {
     final position = Duration(seconds: value.toInt());
-    audioPlayer.seekBy(position);
+    audioPlayes[index].seekBy(position);
   }
 
-  positionAndDuration() {
-    return audioPlayer.builderRealtimePlayingInfos(
+  positionAndDuration(int index) {
+    return audioPlayes[index].builderRealtimePlayingInfos(
       builder: (context, play) {
         return Text(
-          "${play.currentPosition}".split(".")[0] +
-              " / " +
-              "${play.duration}".split('.')[0],
-          style: TextStyle(color: Colors.white),
+          "${"${play.currentPosition}".split(".")[0]} / ${"${play.duration}".split('.')[0]}",
+          style: const TextStyle(color: Colors.white),
         );
       },
     );
   }
 
-  addPosition({String? name, String? artistname}) {
-    return audioPlayer.builderRealtimePlayingInfos(
+  addPosition({BuildContext? context,String? name, String? artistname, required int index}) {
+    return audioPlayes[index].builderRealtimePlayingInfos(
       builder: (BuildContext context, RealtimePlayingInfos play) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,7 +146,7 @@ class StatisticsCubit extends Cubit<StatisticsState> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: [positionAndDuration()],
+              children: [positionAndDuration(index)],
             ),
             SliderTheme(
               data: SliderThemeData(
@@ -133,7 +161,7 @@ class StatisticsCubit extends Cubit<StatisticsState> {
                 activeColor: ColorConst.instance.kPrimaryColor,
                 onChanged: (v) {
                   final position = Duration(seconds: v.toInt());
-                  audioPlayer.seek(position);
+                  audioPlayes[index].seek(position);
                 },
               ),
             ),
