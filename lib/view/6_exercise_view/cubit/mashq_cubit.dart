@@ -46,19 +46,19 @@ class MashqCubit extends Cubit<MashqState> {
   String getCategory(String name) {
     switch (name) {
       case 'Qo\'llar uchun':
-      case 'Для рук':
+      case 'Упражнения для мышц рук':
         return 'Qol';
       case 'Oyoqlar uchun':
-      case 'Для ног':
+      case 'Упражнения для мышц ног':
         return 'Ayoq';
       case 'Press uchun':
-      case 'Для прессы':
+      case 'Упражнения для прямой мышцы живота':
         return 'Pres';
       case 'Turnik':
-      case 'Tурник':
+      case 'Упражнения на перекладине':
         return 'Turnik';
       case 'Brus':
-      case 'Брюс':
+      case 'Упражнения на брусьях':
         return 'Burus';
       default:
         return 'Qol';
