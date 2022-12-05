@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fitness_app/core/constants/api_consts/api_consts.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:lottie/lottie.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 import 'dart:developer' as debugger;
 
@@ -62,6 +64,7 @@ class ExerciseView extends StatelessWidget {
             return Stack(
               children: [
                 CustomScrollView(
+                  physics: BouncingScrollPhysics(),
                   slivers: [
                     SliverAppBar(
                       expandedHeight: 338.h,
@@ -138,13 +141,16 @@ class ExerciseView extends StatelessWidget {
                                             ? const Icon(Icons.fitness_center)
                                             : const Icon(Icons
                                                 .play_circle_filled_outlined),
-                                        Text(
-                                          i == 0
-                                              ? "${MashqData.homeData[dataList.index!]['soni']}  ta"
-                                              : "${MashqData.homeData[dataList.index!]['min']} ${LocaleKeys.min.t}",
-                                          style: TextStyle(
-                                            color: ColorConst.instance.white,
-                                            fontSize: 16.h,
+                                        SizedBox(
+                                          height: 15.h,
+                                          child: AutoSizeText(
+                                            i == 0
+                                                ? "${MashqData.homeData[dataList.index!]['soni']}  ta"
+                                                : "${MashqData.homeData[dataList.index!]['min']} ${LocaleKeys.min.t}",
+                                            style: TextStyle(
+                                              color: ColorConst.instance.white,
+                                              fontSize: 16.h,
+                                            ),
                                           ),
                                         )
                                       ],
@@ -164,7 +170,7 @@ class ExerciseView extends StatelessWidget {
                                   .read(PreferenceKeys.TOKEN.toString())];
                           QueryDocumentSnapshot data =
                               snapshot.data!.docs[index];
-                          
+
                           return GestureDetector(
                             child: Container(
                               height: 76.h,
@@ -189,6 +195,15 @@ class ExerciseView extends StatelessWidget {
                                             "assets/images/loading.gif",
                                         image:
                                             '${ApiConst.BASE_URL}${data['img']}',
+                                        imageErrorBuilder:
+                                            (context, error, stackTrace) {
+                                          return SizedBox(
+                                            height: 74.h,
+                                            width: 80.w,
+                                            child: Lottie.asset(
+                                                "assets/icons/69975-image.json"),
+                                          );
+                                        },
                                       ),
                                     ),
                                   ),
@@ -201,24 +216,32 @@ class ExerciseView extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Text(
-                                          data[context
-                                              .read<MashqCubit>()
-                                              .getLang(name)],
-                                          style: TextStyle(
-                                              color: ColorConst.instance.white,
-                                              fontSize: 22.h),
-                                          overflow: TextOverflow.clip,
-                                          maxLines: 2,
+                                        SizedBox(
+                                          height: 50.h,
+                                          child: AutoSizeText(
+                                            data[context
+                                                .read<MashqCubit>()
+                                                .getLang(name)],
+                                            style: TextStyle(
+                                                color:
+                                                    ColorConst.instance.white,
+                                                fontSize: 22.h),
+                                            overflow: TextOverflow.clip,
+                                            maxLines: 2,
+                                          ),
                                         ),
-                                        Text(
-                                          data['min'],
-                                          style: TextStyle(
+                                        SizedBox(
+                                          height: 25.h,
+                                          child: AutoSizeText(
+                                            data['min'],
+                                            style: TextStyle(
                                               color: ColorConst
                                                   .instance.kPrimaryColor,
-                                              fontSize: 18.h),
-                                          overflow: TextOverflow.clip,
-                                          maxLines: 2,
+                                              fontSize: 18.h,
+                                            ),
+                                            overflow: TextOverflow.clip,
+                                            maxLines: 2,
+                                          ),
                                         )
                                       ],
                                     ),
@@ -227,10 +250,8 @@ class ExerciseView extends StatelessWidget {
                               ),
                             ),
                             onTap: () {
-                              context.read<MashqCubit>().addVisiblitiy(
-                                  true,
-                                  index,
-                                  '${ApiConst.BASE_URL}${data['img']}');
+                              context.read<MashqCubit>().addVisiblitiy(true,
+                                  index, '${ApiConst.BASE_URL}${data['img']}');
                             },
                           );
                         },
@@ -301,6 +322,20 @@ class ExerciseView extends StatelessWidget {
                                     fit: BoxFit.cover,
                                     placeholder: "assets/images/loading.gif",
                                     image: context.watch<MashqCubit>().img,
+                                    imageErrorBuilder:
+                                        (context, error, stackTrace) {
+                                      return Container(
+                                        height: 400.h,
+                                        width: 300.w,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(16.r),
+                                          border: Border.all(color: ColorConst.instance.white)
+                                        ),
+                                        child: Lottie.asset(
+                                            "assets/icons/69975-image.json"),
+                                      );
+                                    },
                                   ),
                                 ),
                               ),

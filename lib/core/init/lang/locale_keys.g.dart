@@ -28,4 +28,5 @@ class LocaleKeys{
   static String siz_qanday_ishda_ishlaysiz = "siz_qanday_ishda_ishlaysiz";
   static String sizning_vazningiz_qancha = "sizning_vazningiz_qancha";
   static String buni_keyinroq_ozgartirsa_boladi = "buni_keyinroq_ozgartirsa_boladi";
+  static String music = "muzika";
 }

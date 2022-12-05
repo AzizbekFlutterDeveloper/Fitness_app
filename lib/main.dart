@@ -17,8 +17,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
-
+  await Firebase.initializeApp();
+  await EasyLocalization.ensureInitialized();
   SharedPreferences pref = await SharedPreferences.getInstance();
 
   await GetStorage.init();
@@ -40,14 +40,16 @@ void main() async {
       supportedLocales: LangManager.instance.supportLocale,
       startLocale: LangManager.instance.uzLocale,
       fallbackLocale: LangManager.instance.uzLocale,
-      child: MyApp( email: pref.getString('email')),
+      saveLocale: true,
+
+      child: MyApp(email: pref.getString('email')),
     ),
   ));
 }
 
 class MyApp extends StatelessWidget {
- late String? email;
-  MyApp({Key? key,required this.email}) : super(key: key);
+  late String? email;
+  MyApp({Key? key, required this.email}) : super(key: key);
 
   final _forRoute = MyRoutes.instance;
 
