@@ -14,4 +14,5 @@ class NavigationConst{
   static const String CHANGE_LANG = '/change_lang';
   static const String ABOUT = "/aboute";
   static const String INSIGHT = "/insight";
+  static const String MUSIC = "/music";
 }

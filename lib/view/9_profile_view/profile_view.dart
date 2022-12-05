@@ -47,7 +47,7 @@ class _ProfileViewState extends State<ProfileView> {
 
   Widget infoPage(data) {
 
-  box.write(PreferenceKeys.NAME.toString(), data['name'].toString().split(' ')[0]??'');
+  box.write(PreferenceKeys.NAME.toString(), data['name'].toString().split(' ')[0]);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 40.h, horizontal: 28.w),

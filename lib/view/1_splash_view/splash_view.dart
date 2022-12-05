@@ -1,13 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fitness_app/core/constants/color_const/color_const.dart';
-import 'package:fitness_app/core/constants/enums/locale_kays_enum.dart';
 import 'package:fitness_app/core/constants/navigation_const/navigation_const.dart';
 import 'package:fitness_app/core/extension/size_extension/size_extension.dart';
-import 'package:fitness_app/core/init/cache/cache_manager.dart';
-import 'package:fitness_app/routes/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashView extends StatefulWidget {
@@ -22,13 +18,13 @@ class _SplashViewState extends State<SplashView> {
   void initState()  {
    
     super.initState();
-    Future.delayed(Duration(seconds: 4)).then((value) async{
+    Future.delayed(const Duration(seconds: 4)).then((value) async{
        SharedPreferences pref = await SharedPreferences.getInstance();
       pref.getString('email') != null
           ? Navigator.pushNamedAndRemoveUntil(
               context, NavigationConst.HOME, (route) => false)
           : Navigator.pushNamedAndRemoveUntil(
-              context, NavigationConst.LOGIN_VIEW, (route) => false);
+              context, NavigationConst.ON_BORDING, (route) => false);
     });
   }
 

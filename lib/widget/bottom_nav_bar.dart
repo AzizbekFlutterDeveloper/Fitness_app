@@ -17,7 +17,7 @@ import 'package:get_storage/get_storage.dart';
 
 class BottomNavBar extends StatelessWidget {
    BottomNavBar({Key? key}) : super(key: key);
-  final List pages = [
+  final List<Widget> pages = [
       HomeView(),
        HealthApp(),
       const NotificationView(),
@@ -47,7 +47,11 @@ class BottomNavBar extends StatelessWidget {
     int bottomCurrentIndex = context.watch<HomeCubit>().bottomCurrentIndex;
     
     return Scaffold(
-      body: pages[bottomCurrentIndex],
+      body:IndexedStack(
+        index: bottomCurrentIndex,
+        children: pages,
+      ),
+       
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: ColorConst.instance.scaffoldBackgroundColor,
         showUnselectedLabels: false,

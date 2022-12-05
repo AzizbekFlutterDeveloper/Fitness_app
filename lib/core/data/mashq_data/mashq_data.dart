@@ -560,13 +560,13 @@ class MashqData {
       'img': "assets/images/qol_home.webp"
     },
     {
-      "name": ["Oyoqlar uchun", "Упражнения для мышц ног."],
+      "name": ["Oyoqlar uchun", "Упражнения для мышц ног"],
       "soni": "10",
       "min": "5.0",
       'img': "assets/images/oyoq_image.jpg"
     },
     {
-      "name": ["Press uchun","Упражнения для прямой мышцы живота."],
+      "name": ["Press uchun","Упражнения для прямой мышцы живота"],
       "soni": "11",
       "min": "5.5",
       'img': "assets/images/pres.jpg"
@@ -578,7 +578,7 @@ class MashqData {
       'img': "assets/images/turnik.jpg"
     },
     {
-      "name": ["Brus", "Упражнения на брусьях."],
+      "name": ["Brus", "Упражнения на брусьях"],
       "soni": "9",
       "min": "5.5",
       'img': "assets/images/brus.jpg"

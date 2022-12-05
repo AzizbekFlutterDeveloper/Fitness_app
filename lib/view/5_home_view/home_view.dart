@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fitness_app/core/constants/color_const/color_const.dart';
 import 'package:fitness_app/core/constants/enums/locale_kays_enum.dart';
 import 'package:fitness_app/core/constants/navigation_const/navigation_const.dart';
@@ -17,17 +18,23 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 60.h),
           child: Column(
+            
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                GetStorage().read(PreferenceKeys.NAME.toString()),
-                style: TextStyle(
-                  color: ColorConst.instance.white,
-                  fontSize: 32.h,
-                  fontWeight: FontWeight.w500,
+              SizedBox(
+                width: 300.w,
+                child: Text(
+                  GetStorage().read(PreferenceKeys.NAME.toString()),
+                  style: TextStyle(
+                    color: ColorConst.instance.white,
+                    fontSize: 32.h,
+                    fontWeight: FontWeight.w500,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
               SizedBox(height: 15.h),
@@ -45,12 +52,15 @@ class HomeView extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          MashqData.homeData[i]['name'][GetStorage()
-                              .read(PreferenceKeys.TOKEN.toString())],
-                          style: TextStyle(
-                            color: ColorConst.instance.white,
-                            fontSize: 22.h,
+                        SizedBox(
+                          width: 250.w,
+                          child: AutoSizeText(
+                            MashqData.homeData[i]['name'][GetStorage()
+                                .read(PreferenceKeys.TOKEN.toString())],
+                            style: TextStyle(
+                              color: ColorConst.instance.white,
+                              fontSize: 22.h,
+                            ),
                           ),
                         ),
                         GestureDetector(

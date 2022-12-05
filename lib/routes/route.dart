@@ -11,6 +11,7 @@ import 'package:fitness_app/view/4_aboute_view/width_view.dart';
 import 'package:fitness_app/view/5_home_view/home_view.dart';
 import 'package:fitness_app/view/6_exercise_view/exercise_view.dart';
 import 'package:fitness_app/view/7_notification_view/notification_view.dart';
+import 'package:fitness_app/view/8_sitatistika_view/muzik_page.dart';
 import 'package:fitness_app/view/8_sitatistika_view/sitatistika_view.dart';
 import 'package:fitness_app/view/9_profile_view/about_page/about_page.dart';
 import 'package:fitness_app/view/9_profile_view/change_lang/change_lang_view.dart';
@@ -57,6 +58,8 @@ class MyRoutes {
         return normalNavigate(HealthApp());
        case NavigationConst.ABOUT:
         return normalNavigate(AboutPage());
+      case NavigationConst.MUSIC:
+        return normalNavigate(MusicPage(data: args,));
       case NavigationConst.EXERCISE:
         return normalNavigate( ExerciseView( dataList: args as HomeModel,));
       default:

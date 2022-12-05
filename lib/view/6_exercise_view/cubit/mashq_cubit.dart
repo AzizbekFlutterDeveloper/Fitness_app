@@ -19,24 +19,24 @@ class MashqCubit extends Cubit<MashqState> {
   String getLang(String name) {
     switch (name) {
       case 'Qo\'llar uchun':
-              return 'nameUz';
-      case 'Для рук':
+        return 'nameUz';
+      case 'Упражнения для мышц рук':
         return 'nameRu';
       case 'Oyoqlar uchun':
-              return 'nameUz';
-      case 'Для ног':
+        return 'nameUz';
+      case 'Упражнения для мышц ног':
         return 'nameRu';
       case 'Press uchun':
-              return 'nameUz';
-      case 'Для прессы':
+        return 'nameUz';
+      case 'Упражнения для прямой мышцы живота':
         return 'nameRu';
       case 'Turnik':
-              return 'nameUz';
-      case 'Tурник':
+        return 'nameUz';
+      case 'Упражнения на перекладине':
         return 'nameRu';
       case 'Brus':
-              return 'nameUz';
-      case 'Брюс':
+        return 'nameUz';
+      case 'Упражнения на брусьях':
         return 'nameRu';
       default:
         return 'nameUz';

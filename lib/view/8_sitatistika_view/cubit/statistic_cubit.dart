@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:fitness_app/core/constants/color_const/color_const.dart';
+import 'package:fitness_app/core/extension/size_extension/size_extension.dart';
 import 'package:fitness_app/service/exercisea_service/set_user_info.dart';
 import 'package:fitness_app/view/8_sitatistika_view/cubit/statistics_state.dart';
 import 'package:flutter/material.dart';
@@ -11,28 +12,30 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class StatisticsCubit extends Cubit<StatisticsState> {
   StatisticsCubit() : super(StatiscticsInitial());
 
-  bool isDownloading = false;
-
-  void loadMusic() {
-    isDownloading = !isDownloading;
+  List<bool> isDownloading = [];
+  List<bool> isDiskAnimation = [];
+  void loadMusic(int index) {
+    isDownloading[index] = !isDownloading[index];
     emit(LoadState());
   }
 
   final audioPlayer = AssetsAudioPlayer();
 
+  List<AssetsAudioPlayer> audioPlayes = [];
+
   bool isPlay = false;
 
-  var audio = Audio.network(
-    "https://96.f.1ting.com/local_to_cube_202004121813/96kmp3/2021/04/16/16b_am/01.mp3",
-    metas: Metas(
-      title: "Country",
-      artist: "Florent Champigny",
-      album: "CountryAlbum",
-      image: const MetasImage.network(
-        "https://www.theater.nl/assets/Voorstelling/Thumbnail/Microfoon-Unsplash__CompressedW10.jpg",
-      ), //can be MetasImage.network
-    ),
-  );
+  addListFalse(int length) {
+    isDownloading = List.generate(length, (index) => false);
+    isDiskAnimation = List.generate(length, (index) => false);
+    audioPlayes = List.generate(
+      length,
+      (index) => AssetsAudioPlayer(),
+    );
+    emit(LoadState());
+  }
+
+  var audio;
 
   void addAudioFile({
     required String audioUrl,
@@ -41,7 +44,7 @@ class StatisticsCubit extends Cubit<StatisticsState> {
     String? album,
     String? imageUrl,
   }) {
-    audio = Audio.network(
+    audio = Audio.file(
       audioUrl,
       metas: Metas(
         title: title,
@@ -56,21 +59,22 @@ class StatisticsCubit extends Cubit<StatisticsState> {
 
     audioPlayer.open(
       audio,
-      autoStart: true,
-      showNotification: true,
-      notificationSettings: NotificationSettings(
-        customPlayPauseAction: ((player) {
-          audioPlay();
-        }),
-      ),
+      autoStart: false,
+      notificationSettings:
+          NotificationSettings(customPlayPauseAction: ((player) {
+        audioPlay();
+      })),
     );
-    audioPlay();
-    // addPosition();
+
+    addPosition();
   }
-  void isStop(){
+
+  void isStop() {
     audioPlayer.stop();
-    emit(LoadState());
+    
+    emit(MucisStap());
   }
+
   void audioPlay() {
     isPlay = !isPlay;
     isPlay ? audioPlayer.play() : audioPlayer.pause();
@@ -86,45 +90,57 @@ class StatisticsCubit extends Cubit<StatisticsState> {
     return audioPlayer.builderRealtimePlayingInfos(
       builder: (context, play) {
         return Text(
-          "${play.currentPosition}".split(".")[0] +
-              " / " +
-              "${play.duration}".split('.')[0],
-          style: TextStyle(color: Colors.white),
+          "${"${play.currentPosition}".split(".")[0]} / ${"${play.duration}".split('.')[0]}",
+          style: const TextStyle(color: Colors.white),
         );
       },
     );
   }
 
-  addPosition({String? name, String? artistname}) {
+  addPosition({
+    BuildContext? context,
+    String? name,
+    String? artistname,
+  }) {
     return audioPlayer.builderRealtimePlayingInfos(
       builder: (BuildContext context, RealtimePlayingInfos play) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
+            SizedBox(width: context.w),
+            GestureDetector(
+              child: CircleAvatar(
+                radius: 16.r,
+                backgroundColor: Colors.black.withOpacity(0.5),
+                child: Icon(Icons.arrow_back, color: Colors.white),
+              ),
+              onTap: () {
+                audioPlayer.stop();
+                Navigator.pop(context);
+              },
+            ),
+            Spacer(),
             Text(
-              name?? "No name",
+              name??"No Name",
               style: TextStyle(
-                  color: ColorConst.instance.kPrimaryColor, fontSize: 17.h),
-              overflow: TextOverflow.clip,
-              maxLines: 2,
+                color: Colors.white,
+                fontSize: 23.sp,
+              ),
             ),
             Text(
-              artistname??"No auther",
+              artistname??"No Auther",
               style: TextStyle(
-                  color: ColorConst.instance.kPrimaryColor, fontSize: 14.h),
-              overflow: TextOverflow.clip,
-              maxLines: 2,
+                color: Colors.white,
+                fontSize: 20.sp,
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [positionAndDuration()],
-            ),
+            SizedBox(height: 15.h),
             SliderTheme(
               data: SliderThemeData(
                   overlayShape: SliderComponentShape.noThumb,
-                  trackHeight: 5.h,
+                  trackHeight: 10.h,
                   thumbColor: ColorConst.instance.kPrimaryColor,
+                  inactiveTrackColor: Colors.black.withOpacity(0.5),
                   thumbShape:
                       const RoundSliderThumbShape(enabledThumbRadius: 0.0)),
               child: Slider(
@@ -136,6 +152,51 @@ class StatisticsCubit extends Cubit<StatisticsState> {
                   audioPlayer.seek(position);
                 },
               ),
+            ),
+            SizedBox(height: 10.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+               Text("${play.currentPosition}".split(".")[0],style: TextStyle(color: ColorConst.instance.white),),
+               Text("${play.duration}".split(".")[0],style: TextStyle(color: ColorConst.instance.white),)
+              ],
+            ),
+            SizedBox(height: 25.h),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    audioSeek(-10);
+                  },
+                  icon: Icon(
+                    Icons.skip_previous_rounded,
+                    color: Colors.white,
+                    size: 40.sp,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    audioPlay();
+                  },
+                  icon: Icon(
+                    isPlay?Icons.pause_outlined:  Icons.play_arrow_rounded,
+                    color: Colors.white,
+                    size: 50.sp,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    audioSeek(10);
+                  },
+                  icon: Icon(
+                    Icons.skip_next_rounded,
+                    color: Colors.white,
+                    size: 40.sp,
+                  ),
+                )
+              ],
             ),
           ],
         );
