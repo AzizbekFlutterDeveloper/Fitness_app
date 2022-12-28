@@ -41,7 +41,7 @@ class LoginView extends StatelessWidget {
                   SizedBox(
                     height: context.h * 0.65,
                     width: context.w,
-                    child: Image.asset(context.watch<LoginCubit>().tabBarCurrent != 0?"assets/images/Rectangle 6.png":"assets/images/singup.png",
+                    child: Image.asset(context.watch<LoginCubit>().tabBarCurrent != 0?"assets/images/brus2.jpg":"assets/images/onbording3.jpg",
                         fit: BoxFit.cover),
                   ),
                   Container(

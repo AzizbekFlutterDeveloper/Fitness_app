@@ -557,31 +557,31 @@ class MashqData {
       "name": ["Qo'llar uchun", "Упражнения для мышц рук"],
       "soni": "22",
       "min": "6.5",
-      'img': "assets/images/qol_home.webp"
+      'img': "assets/images/qol.jpg"
     },
     {
       "name": ["Oyoqlar uchun", "Упражнения для мышц ног"],
       "soni": "10",
       "min": "5.0",
-      'img': "assets/images/oyoq_image.jpg"
+      'img': "assets/images/oyoq.jpg"
     },
     {
       "name": ["Press uchun","Упражнения для прямой мышцы живота"],
       "soni": "11",
       "min": "5.5",
-      'img': "assets/images/pres.jpg"
+      'img': "assets/images/brus2.jpg"
     },
     {
       "name": ["Turnik", "Упражнения на перекладине"],
       "soni": "18",
       "min": "5.5",
-      'img': "assets/images/turnik.jpg"
+      'img': "assets/images/oyoq3.jpg"
     },
     {
       "name": ["Brus", "Упражнения на брусьях"],
       "soni": "9",
       "min": "5.5",
-      'img': "assets/images/brus.jpg"
+      'img': "assets/images/brus2.jpg"
     },
   ];
 }

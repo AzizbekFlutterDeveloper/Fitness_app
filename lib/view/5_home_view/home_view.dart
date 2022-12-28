@@ -86,7 +86,7 @@ class HomeView extends StatelessWidget {
                     ),
                     GestureDetector(
                       child: Container(
-                        height: 160.h,
+                        height: 300.h,
                         width: 327.w,
                         margin: EdgeInsets.only(top: 15.h),
                         decoration: BoxDecoration(
