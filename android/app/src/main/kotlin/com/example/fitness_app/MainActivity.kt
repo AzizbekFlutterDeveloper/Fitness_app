@@ -1,4 +1,4 @@
-package com.azizkarimov.jismoniy_faolik
+package com.azizkarimov.jismoniy
 
 import io.flutter.embedding.android.FlutterActivity
 

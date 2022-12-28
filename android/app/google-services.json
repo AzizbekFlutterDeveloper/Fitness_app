@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:771563895275:android:a4f7bc85209959644141ae",
         "android_client_info": {
-          "package_name": "com.azizkarimov.jismoniy_faolik"
+          "package_name": "com.azizkarimov.jismoniy"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "771563895275-m3jc70pf8pe3mk1ct4lkbnb1aq96p848.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.azizkarimov.jismoniy_faolik",
+            "package_name": "com.azizkarimov.jismoniy",
             "certificate_hash": "d0ea4e6c76aa900b11cf97c5e717c0638e1ee5c2"
           }
         },
